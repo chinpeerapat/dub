@@ -13,6 +13,7 @@ RUN --mount=type=cache,id=dub-pnpm,target=/root/.local/share/pnpm/store pnpm ins
 
 FROM dependencies AS tools
 RUN DATABASE_URL=postgresql://build:build@localhost/postgres?schema=dub pnpm --filter web exec prisma generate --schema=prisma/schema
+RUN pnpm exec turbo run build --filter=web^...
 RUN pnpm --filter web run build:deployment
 
 FROM tools AS build

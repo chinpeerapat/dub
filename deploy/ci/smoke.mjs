@@ -106,7 +106,6 @@ const created = await request("/api/links?workspaceId=selfhost-smoke", {
   method: "POST",
   headers: { "content-type": "application/json" },
   body: JSON.stringify({
-    domain: "go.localhost",
     key: "docker-smoke",
     url: "https://example.com/ci",
   }),
@@ -118,6 +117,11 @@ assert.equal(
 );
 const link = await created.json();
 assert.ok(link.id);
+assert.equal(
+  link.domain,
+  "go.localhost",
+  "Use the configured short domain when omitted",
+);
 const list = await request("/api/links?workspaceId=selfhost-smoke");
 assert.equal(list.status, 200);
 assert.ok((await list.json()).some((item) => item.id === link.id));

@@ -22,6 +22,11 @@ export async function maliciousLinkCheck(url: string) {
     return false;
   }
 
+  // The optional AI check needs a configured gateway credential.
+  if (!process.env.AI_GATEWAY_API_KEY && !process.env.VERCEL_OIDC_TOKEN) {
+    return false;
+  }
+
   // run jev check
   try {
     const result = await evaluate({

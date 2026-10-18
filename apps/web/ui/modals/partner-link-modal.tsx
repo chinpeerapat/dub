@@ -30,6 +30,7 @@ import {
   linkConstructor,
   nanoid,
   punycode,
+  SHORT_DOMAIN,
 } from "@dub/utils";
 import { AnimatePresence, motion } from "motion/react";
 import { useSession } from "next-auth/react";
@@ -179,7 +180,7 @@ function PartnerLinkModalContent({
 
   const { shortLinkDomain, additionalLinks } = useMemo(() => {
     return {
-      shortLinkDomain: programEnrollment?.program?.domain ?? "dub.sh",
+      shortLinkDomain: programEnrollment?.program?.domain ?? SHORT_DOMAIN,
       additionalLinks: programEnrollment?.group?.additionalLinks ?? [],
     };
   }, [programEnrollment]);
