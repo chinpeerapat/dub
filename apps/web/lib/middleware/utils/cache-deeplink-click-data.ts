@@ -1,6 +1,5 @@
+import { ipAddress } from "@/lib/backend/request";
 import { redis } from "@/lib/upstash";
-import { LOCALHOST_IP } from "@dub/utils";
-import { ipAddress } from "@vercel/functions";
 
 export type DeepLinkClickData = {
   clickId: string;
@@ -16,7 +15,7 @@ export async function cacheDeepLinkClickData({
   clickId: string;
   link: { id: string; domain: string; key: string; url: string };
 }) {
-  const ip = process.env.VERCEL === "1" ? ipAddress(req) : LOCALHOST_IP;
+  const ip = ipAddress(req) || "";
 
   // skip caching if ip address is not present
   if (!ip) {

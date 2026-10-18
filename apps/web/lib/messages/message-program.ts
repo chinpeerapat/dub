@@ -1,11 +1,11 @@
 "use server";
 
 import { createId } from "@/lib/api/create-id";
+import { waitUntil } from "@/lib/backend/background";
 import { qstash } from "@/lib/cron";
 import { forwardPartnerMessageToIntercom } from "@/lib/integrations/intercom/forward-message";
 import { prisma } from "@/lib/prisma";
 import { APP_DOMAIN_WITH_NGROK, INTERCOM_INTEGRATION_ID } from "@dub/utils";
-import { waitUntil } from "@vercel/functions";
 import { authPartnerActionClient } from "../actions/safe-action";
 import { COMMISSION_ELIGIBLE_ENROLLMENT_STATUSES } from "../zod/schemas/partners";
 import { MessageSchema, messageProgramSchema } from "./schemas";

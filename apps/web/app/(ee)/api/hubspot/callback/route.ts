@@ -1,5 +1,6 @@
 import { DubApiError, handleAndReturnErrorResponse } from "@/lib/api/errors";
 import { getSession } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import { encrypt } from "@/lib/encryption";
 import { HubSpotApi } from "@/lib/integrations/hubspot/api";
 import { HUBSPOT_DUB_CONTACT_PROPERTIES } from "@/lib/integrations/hubspot/constants";
@@ -7,7 +8,6 @@ import { hubSpotOAuthProvider } from "@/lib/integrations/hubspot/oauth";
 import { installIntegration } from "@/lib/integrations/install";
 import { prisma } from "@/lib/prisma";
 import { WorkspaceProps } from "@/lib/types";
-import { waitUntil } from "@vercel/functions";
 import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";

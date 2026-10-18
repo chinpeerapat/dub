@@ -5,6 +5,7 @@ import { getOrCreateCustomer } from "@/lib/api/customers/get-or-create-customer"
 import { includeTags } from "@/lib/api/links/include-tags";
 import { syncPartnerLinksStats } from "@/lib/api/partners/sync-partner-links-stats";
 import { executeWorkflows } from "@/lib/api/workflows/execute-workflows";
+import { waitUntil } from "@/lib/backend/background";
 import { getNormalizedEmail } from "@/lib/email/normalize-email";
 import { queueGoogleAdsConversionUpload } from "@/lib/integrations/google-ads/upload-conversion";
 import { queuePartnerCommissionCreation } from "@/lib/partners/queue-partner-commission-creation";
@@ -22,7 +23,6 @@ import { sendWorkspaceWebhook } from "@/lib/webhook/publish";
 import { transformSaleEventData } from "@/lib/webhook/transform";
 import { nanoid } from "@dub/utils";
 import { CommissionSource, Customer, EventType } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import type Stripe from "stripe";
 import { WebhookHandlerInput, WebhookHandlerResponse } from "./types";
 import { attributeViaPromotionCodeId } from "./utils/attribute-via-promotion-code-id";

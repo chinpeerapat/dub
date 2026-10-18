@@ -316,7 +316,7 @@ async function byTimeseries({
   const rows = await prisma.$queryRaw<TimeseriesApplicationRow[]>(
     Prisma.sql`
       SELECT
-        DATE_FORMAT(CONVERT_TZ(e.visitedAt, "UTC", ${tzId}), ${dateFormat}) AS start,
+        to_char(e.visitedAt AT TIME ZONE 'UTC' AT TIME ZONE ${tzId}, ${dateFormat}) AS start,
         COUNT(e.visitedAt) AS visits,
         COUNT(e.startedAt) AS starts,
         COUNT(e.submittedAt) AS submissions,

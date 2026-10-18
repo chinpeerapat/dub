@@ -1,11 +1,11 @@
 import { DubApiError } from "@/lib/api/errors";
 import { queuePartnerSearchSync } from "@/lib/api/partners/queue-partner-search-sync";
 import { requestEmailChange } from "@/lib/auth/request-email-change";
+import { waitUntil } from "@/lib/backend/background";
 import { dispatchGroupUtmSyncForPartner } from "@/lib/partners/dispatch-partner-utm-sync";
 import { prisma } from "@/lib/prisma";
 import { storage } from "@/lib/storage";
 import { nanoid } from "@dub/utils";
-import { waitUntil } from "@vercel/functions";
 
 export async function assertEmailAvailableForIdentitySync({
   newEmail,

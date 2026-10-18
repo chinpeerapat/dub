@@ -8,6 +8,7 @@ import { movePartnersToGroup } from "@/lib/api/groups/move-partners-to-group";
 import { queuePartnerSearchSync } from "@/lib/api/partners/queue-partner-search-sync";
 import { getDefaultProgramIdOrThrow } from "@/lib/api/programs/get-default-program-id-or-throw";
 import { trackApplicationEvents } from "@/lib/application-events/update-application-event";
+import { waitUntil } from "@/lib/backend/background";
 import { dispatchWorkflows } from "@/lib/jobs/publish-workflows";
 import { throwIfPartnersLimitExceeded } from "@/lib/partners/throw-if-partners-limit-exceeded";
 import { prisma } from "@/lib/prisma";
@@ -17,7 +18,6 @@ import {
   ProgramApplicationStatus,
   ProgramEnrollmentStatus,
 } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { authActionClient } from "../safe-action";
 import { throwIfNoPermission } from "../throw-if-no-permission";
 

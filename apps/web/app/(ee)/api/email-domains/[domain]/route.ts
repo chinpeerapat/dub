@@ -4,6 +4,7 @@ import { DubApiError } from "@/lib/api/errors";
 import { getDefaultProgramIdOrThrow } from "@/lib/api/programs/get-default-program-id-or-throw";
 import { parseRequestBody } from "@/lib/api/utils";
 import { withWorkspace } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import { qstash } from "@/lib/cron";
 import { prisma } from "@/lib/prisma";
 import {
@@ -13,7 +14,6 @@ import {
 import { resend } from "@dub/email/resend";
 import { APP_DOMAIN_WITH_NGROK } from "@dub/utils";
 import { Prisma } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 
 // PATCH /api/email-domains/[domain] - update an email domain

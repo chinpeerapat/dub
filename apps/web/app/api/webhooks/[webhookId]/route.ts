@@ -1,6 +1,7 @@
 import { DubApiError } from "@/lib/api/errors";
 import { parseRequestBody } from "@/lib/api/utils";
 import { withWorkspace } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import { NewWebhook } from "@/lib/types";
 import { syncWorkspaceWebhookStatus } from "@/lib/webhook/click-webhook-workspaces";
@@ -9,7 +10,6 @@ import type { WebhookTrigger } from "@/lib/webhook/types";
 import { validateWebhook } from "@/lib/webhook/validate-webhook";
 import { updateWebhookSchema, WebhookSchema } from "@/lib/zod/schemas/webhooks";
 import { arrayEqual } from "@dub/utils";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 
 // GET /api/webhooks/[webhookId] - get info about a specific webhook

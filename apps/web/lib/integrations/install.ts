@@ -1,7 +1,7 @@
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import { sendEmail } from "@dub/email";
 import IntegrationInstalled from "@dub/email/templates/integration-installed";
-import { waitUntil } from "@vercel/functions";
 
 interface InstallIntegration {
   userId: string;

@@ -1,4 +1,5 @@
 import { prefixWorkspaceId } from "@/lib/api/workspaces/workspace-id";
+import { waitUntil } from "@/lib/backend/background";
 import { isBlacklistedEmail } from "@/lib/edge-config";
 import { plain } from "@/lib/plain/client";
 import { syncUserPlanToPlain } from "@/lib/plain/sync-user-plan";
@@ -6,7 +7,6 @@ import { upsertPlainCustomer } from "@/lib/plain/upsert-plain-customer";
 import { prisma } from "@/lib/prisma";
 import { capitalize, formatDate } from "@dub/utils";
 import { uiComponent } from "@team-plain/typescript-sdk";
-import { waitUntil } from "@vercel/functions";
 import { NextRequest, NextResponse } from "next/server";
 import {
   plainCallbackSchema,

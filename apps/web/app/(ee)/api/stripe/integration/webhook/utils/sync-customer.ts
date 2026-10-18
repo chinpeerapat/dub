@@ -3,6 +3,7 @@ import { getOrCreateCustomer } from "@/lib/api/customers/get-or-create-customer"
 import { includeTags } from "@/lib/api/links/include-tags";
 import { syncPartnerLinksStats } from "@/lib/api/partners/sync-partner-links-stats";
 import { executeWorkflows } from "@/lib/api/workflows/execute-workflows";
+import { waitUntil } from "@/lib/backend/background";
 import { getNormalizedEmail } from "@/lib/email/normalize-email";
 import { queueGoogleAdsConversionUpload } from "@/lib/integrations/google-ads/upload-conversion";
 import { generateRandomName } from "@/lib/names";
@@ -15,7 +16,6 @@ import { sendWorkspaceWebhook } from "@/lib/webhook/publish";
 import { transformLeadEventData } from "@/lib/webhook/transform";
 import { nanoid, pick } from "@dub/utils";
 import { EventType, Prisma } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import type Stripe from "stripe";
 import { WebhookHandlerInput, WebhookHandlerResponse } from "../types";
 import { getDubCustomerExternalIdFromMetadata } from "./get-dub-customer-external-id-from-metadata";

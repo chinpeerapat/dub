@@ -127,7 +127,7 @@ function searchSql(search?: string) {
     AND (
       pa.name LIKE ${like}
       OR pa.email LIKE ${like}
-      OR MATCH(p.email, p.name, p.companyName) AGAINST (${fullTextQuery} IN NATURAL LANGUAGE MODE)
+      OR to_tsvector('simple', concat_ws(' ', p.email, p.name, p.companyName)) @@ plainto_tsquery('simple', ${search})
     )
   `;
 }

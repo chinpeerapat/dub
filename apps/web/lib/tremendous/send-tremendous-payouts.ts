@@ -1,3 +1,4 @@
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import { sendEmail } from "@dub/email";
 import PartnerTremendousPayout from "@dub/email/templates/partner-tremendous-payout";
@@ -8,7 +9,6 @@ import {
   log,
 } from "@dub/utils";
 import { Prisma, WorkspaceEnvironment } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { CreateOrder200Response, OrdersApi } from "tremendous";
 import { trackCommissionStatusUpdatesByProgram } from "../api/commissions/track-commission-update-activity-log";
 import { enqueueBatchJobs } from "../cron/enqueue-batch-jobs";

@@ -1,4 +1,5 @@
 import { detectDuplicateIdentityFraud } from "@/lib/api/fraud/detect-duplicate-identity-fraud";
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import {
   VeriffDecisionEvent,
@@ -14,7 +15,6 @@ import PartnerIdentityVerificationFailed from "@dub/email/templates/partner-iden
 import PartnerIdentityVerified from "@dub/email/templates/partner-identity-verified";
 import { DUPLICATE_IDENTITY_DECLINE_REASON } from "@dub/utils";
 import { IdentityVerificationStatus, Partner } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { logAndRespond } from "app/(ee)/api/cron/utils";
 
 const veriffStatusMap: Record<

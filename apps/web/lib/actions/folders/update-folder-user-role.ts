@@ -1,9 +1,9 @@
 "use server";
 
+import { waitUntil } from "@/lib/backend/background";
 import { getPlanCapabilities } from "@/lib/plan-capabilities";
 import { prisma } from "@/lib/prisma";
 import { PlanProps } from "@/lib/types";
-import { waitUntil } from "@vercel/functions";
 import * as z from "zod/v4";
 import { verifyFolderAccess } from "../../folder/permissions";
 import { folderUserRoleSchema } from "../../zod/schemas/folders";

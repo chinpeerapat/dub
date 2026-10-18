@@ -2,12 +2,12 @@ import { DubApiError } from "@/lib/api/errors";
 import { OAUTH_CONFIG } from "@/lib/api/oauth/constants";
 import { createToken, generateCodeChallengeHash } from "@/lib/api/oauth/utils";
 import { hashToken } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import { installIntegration } from "@/lib/integrations/install";
 import { generateRandomName } from "@/lib/names";
 import { prisma } from "@/lib/prisma";
 import { timingSafeCompare } from "@/lib/webhook/timing-safe-compare";
 import { authCodeExchangeSchema } from "@/lib/zod/schemas/oauth";
-import { waitUntil } from "@vercel/functions";
 import { NextRequest } from "next/server";
 import * as z from "zod/v4";
 

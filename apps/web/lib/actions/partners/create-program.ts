@@ -5,6 +5,7 @@ import { createAndEnrollPartner } from "@/lib/api/partners/create-and-enroll-par
 import { getGroupRewardsAndBounties } from "@/lib/api/partners/get-group-rewards-and-bounties";
 import { generateRandomString } from "@/lib/api/utils/generate-random-string";
 import { workspaceProductCache } from "@/lib/api/workspaces/workspace-product-cache";
+import { waitUntil } from "@/lib/backend/background";
 import { getPlanCapabilities } from "@/lib/plan-capabilities";
 import { prisma } from "@/lib/prisma";
 import { queueCreateStagingWorkspace } from "@/lib/sandbox/create-staging-workspace";
@@ -30,7 +31,6 @@ import {
   RESERVED_SLUGS,
 } from "@dub/utils";
 import { Program, Project, User } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { redirect } from "next/navigation";
 
 export const createProgram = async ({

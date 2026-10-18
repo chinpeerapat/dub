@@ -1,6 +1,7 @@
 import { createId } from "@/lib/api/create-id";
 import { includeTags } from "@/lib/api/links/include-tags";
 import { syncPartnerLinksStats } from "@/lib/api/partners/sync-partner-links-stats";
+import { waitUntil } from "@/lib/backend/background";
 import { getNormalizedEmail } from "@/lib/email/normalize-email";
 import { generateRandomName } from "@/lib/names";
 import { sendPartnerPostback } from "@/lib/postback/send-partner-postback";
@@ -11,7 +12,6 @@ import { transformLeadEventData } from "@/lib/webhook/transform";
 import { leadEventSchemaTB } from "@/lib/zod/schemas/leads";
 import { nanoid } from "@dub/utils";
 import { EventType } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { queueGoogleAdsConversionUpload } from "../google-ads/upload-conversion";
 import { ShopifyError } from "./error";
 import { ShopifyOrder } from "./schema";

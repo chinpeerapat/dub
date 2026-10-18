@@ -52,7 +52,7 @@ Our platform powers 100M+ clicks and 2M+ links monthly, and is used by world-cla
 
 ## Self-Hosting
 
-You can self-host Dub for greater control over your data and design. [Read this guide](https://dub.co/docs/self-hosting/guide) to learn more.
+This fork deploys with Docker and self-hosted Supabase. Follow the [deployment guide](deploy/README.md) for fresh database setup, generated secrets, storage, and background jobs.
 
 ## Contributing
 
@@ -64,10 +64,10 @@ We love our contributors! Here's how you can contribute:
 
 ### Recommended Versions
 
-| Package | Version  |
-| ------- | -------- |
-| node    | v23.11.0 |
-| pnpm    | 9.15.9   |
+| Package | Version |
+| ------- | ------- |
+| node    | v24 LTS |
+| pnpm    | 9.15.9  |
 
 ### Common Local Development Issues
 

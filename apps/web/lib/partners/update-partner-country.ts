@@ -1,9 +1,9 @@
 import { queuePartnerSearchSync } from "@/lib/api/partners/queue-partner-search-sync";
+import { waitUntil } from "@/lib/backend/background";
 import { qstash } from "@/lib/cron";
 import { prisma } from "@/lib/prisma";
 import { partnerProfileChangeHistoryLogSchema } from "@/lib/zod/schemas/partner-profile";
 import { APP_DOMAIN_WITH_NGROK } from "@dub/utils";
-import { waitUntil } from "@vercel/functions";
 
 export async function updatePartnerCountry({
   partnerId,

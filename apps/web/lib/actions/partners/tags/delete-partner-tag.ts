@@ -1,10 +1,10 @@
 "use server";
 
 import { getDefaultProgramIdOrThrow } from "@/lib/api/programs/get-default-program-id-or-throw";
+import { waitUntil } from "@/lib/backend/background";
 import { partnerTagDeletedJob } from "@/lib/jobs/handlers/partner-tag-deleted-job";
 import { prisma } from "@/lib/prisma";
 import { deletePartnerTagSchema } from "@/lib/zod/schemas/partner-tags";
-import { waitUntil } from "@vercel/functions";
 import { authActionClient } from "../../safe-action";
 import { throwIfNoPermission } from "../../throw-if-no-permission";
 

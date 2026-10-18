@@ -1,0 +1,16 @@
+:8000 {
+  handle_path /storage/v1/* {
+    reverse_proxy storage:5000
+  }
+  respond /health 200
+}
+{$APP_HOST}, {$API_HOST}, {$PARTNERS_HOST}, {$ADMIN_HOST}, {$SHORT_HOST} {
+  reverse_proxy web:3000 {
+    header_up -X-Geo-*
+  }
+}
+{$STORAGE_HOST} {
+  handle_path /storage/v1/* {
+    reverse_proxy storage:5000
+  }
+}

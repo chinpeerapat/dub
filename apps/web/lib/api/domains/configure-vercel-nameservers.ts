@@ -1,21 +1,5 @@
-import { assertValidDomainFormat, CustomResponse } from "./utils";
-
-export const configureVercelNameservers = async (
-  domain: string,
-): Promise<CustomResponse> => {
-  assertValidDomainFormat(domain);
-  return await fetch(
-    `https://api.vercel.com/v3/domains/${domain}?teamId=${process.env.TEAM_ID_VERCEL}`,
-    {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${process.env.VERCEL_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        op: "update",
-        zone: true,
-      }),
-    },
-  ).then((res) => res.json());
+export const configureVercelNameservers = async (_domain: string) => {
+  throw new Error(
+    "Configure DNS with your domain provider. Automated domain registration is unavailable in this deployment.",
+  );
 };

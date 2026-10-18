@@ -7,6 +7,7 @@ import { prefixWorkspaceId } from "@/lib/api/workspaces/workspace-id";
 import { getWorkspaceLogoKeyPrefix } from "@/lib/api/workspaces/workspace-logo";
 import { workspaceProductCache } from "@/lib/api/workspaces/workspace-product-cache";
 import { withWorkspace } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import { getFeatureFlags } from "@/lib/edge-config";
 import { jackson } from "@/lib/jackson";
 import { syncStagingWorkspaceJob } from "@/lib/jobs/handlers/sync-staging-workspace-job";
@@ -26,7 +27,6 @@ import {
 } from "@/lib/zod/schemas/workspaces";
 import { nanoid, R2_URL } from "@dub/utils";
 import { Prisma } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 import * as z from "zod/v4";
 

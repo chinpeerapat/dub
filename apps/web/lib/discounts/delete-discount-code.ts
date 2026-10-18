@@ -1,8 +1,8 @@
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import { DiscountCodeWebhookSchema } from "@/lib/zod/schemas/discount";
 import { APP_DOMAIN_WITH_NGROK, chunk } from "@dub/utils";
 import { Discount, DiscountCode, DiscountProvider } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import * as z from "zod/v4";
 import { enqueueBatchJobs } from "../cron/enqueue-batch-jobs";
 import { sendWorkspaceWebhook } from "../webhook/publish";

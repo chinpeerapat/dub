@@ -65,12 +65,12 @@ export async function getPartnerEarningsTimeseries({
         : Prisma.sql`linkId`;
 
   const query = Prisma.sql`
-        SELECT 
-          DATE_FORMAT(CONVERT_TZ(createdAt, "UTC", ${timezone || "UTC"}), ${dateFormat}) AS start, 
+        SELECT
+          to_char(createdAt AT TIME ZONE 'UTC' AT TIME ZONE ${timezone || "UTC"}, ${dateFormat}) AS start,
           ${groupByColumn ? Prisma.sql`${groupByColumn},` : Prisma.sql``}
           SUM(earnings) AS earnings
         FROM Commission
-        WHERE 
+        WHERE
           earnings != 0
           ${programId ? Prisma.sql`AND programId = ${programId}` : Prisma.sql`AND programId != ${NETWORK_PROGRAM_ID}`}
           AND partnerId = ${partnerId}

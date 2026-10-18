@@ -1,12 +1,12 @@
 "use server";
 
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import {
   assertProductionWorkspace,
   assertStagingWorkspace,
 } from "@/lib/sandbox/workspace-guards";
 import { APP_DOMAIN_WITH_NGROK } from "@dub/utils";
-import { waitUntil } from "@vercel/functions";
 import { authActionClient } from "../actions/safe-action";
 import { throwIfNoPermission } from "../actions/throw-if-no-permission";
 import { recordAuditLog } from "../api/audit-logs/record-audit-log";

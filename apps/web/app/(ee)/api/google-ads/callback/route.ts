@@ -1,5 +1,6 @@
 import { DubApiError, handleAndReturnErrorResponse } from "@/lib/api/errors";
 import { getSession } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import { encrypt } from "@/lib/encryption";
 import {
   GoogleAdsApi,
@@ -16,7 +17,6 @@ import { getPlanCapabilities } from "@/lib/plan-capabilities";
 import { prisma } from "@/lib/prisma";
 import { WorkspaceProps } from "@/lib/types";
 import { GOOGLE_ADS_INTEGRATION_ID } from "@dub/utils";
-import { waitUntil } from "@vercel/functions";
 import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";

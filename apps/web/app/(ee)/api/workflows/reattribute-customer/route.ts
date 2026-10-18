@@ -10,11 +10,10 @@ import {
   transferUnpaidCommissions,
 } from "@/lib/api/customers/reattribute-customer";
 import { logger } from "@/lib/axiom/server";
+import { serve, WorkflowRetryAfterError } from "@/lib/backend/workflow";
 import { prisma } from "@/lib/prisma";
 import { deleteTinybirdCustomerEvents } from "@/lib/tinybird/delete-customer-events";
 import { reattributeCustomerWorkflowSchema } from "@/lib/zod/schemas/customers";
-import { WorkflowRetryAfterError } from "@upstash/workflow";
-import { serve } from "@upstash/workflow/nextjs";
 import * as z from "zod/v4";
 import { logAndReturn } from "../../cron/utils";
 

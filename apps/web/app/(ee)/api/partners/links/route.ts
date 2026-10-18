@@ -13,6 +13,7 @@ import { PARTNER_SCOPES_ENFORCED_AT } from "@/lib/api/tokens/scopes";
 import { parseRequestBody } from "@/lib/api/utils";
 import { applyGroupUtmToLink } from "@/lib/api/utm/apply-group-utm-to-link";
 import { withWorkspace } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import { throwIfNoPartnerIdOrTenantId } from "@/lib/partners/throw-if-no-partnerid-tenantid";
 import { getPlanCapabilities } from "@/lib/plan-capabilities";
 import { prisma } from "@/lib/prisma";
@@ -27,7 +28,6 @@ import {
   ProgramPartnerLinkSchema,
   ProgramPartnerLinkSchemaInternal,
 } from "@/lib/zod/schemas/programs";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 import * as z from "zod/v4";
 

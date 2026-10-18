@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": { "incremental": false },
+  "include": [
+    "lib/backend/**/*.ts",
+    "lib/upstash/redis.ts",
+    "lib/upstash/ratelimit.ts",
+    "scripts/init-selfhost.ts",
+    "scripts/worker.ts"
+  ],
+  "exclude": ["node_modules"]
+}

@@ -1,8 +1,8 @@
 "use server";
 
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import { DUB_WORKSPACE_ID, nanoid, R2_URL } from "@dub/utils";
-import { waitUntil } from "@vercel/functions";
 import * as z from "zod/v4";
 import { createId } from "../api/create-id";
 import { deleteScreenshots } from "../integrations/utils";

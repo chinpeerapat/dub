@@ -631,7 +631,7 @@ async function byTimeseries({
   const rows = await prisma.$queryRaw<CommissionTimeseriesRow[]>(
     Prisma.sql`
       SELECT
-        DATE_FORMAT(CONVERT_TZ(c.createdAt, "UTC", ${timezone || "UTC"}), ${dateFormat}) AS start,
+        to_char(c.createdAt AT TIME ZONE 'UTC' AT TIME ZONE ${timezone || "UTC"}, ${dateFormat}) AS start,
         SUM(c.earnings) AS earnings,
         COUNT(c.id) AS count
       FROM Commission c

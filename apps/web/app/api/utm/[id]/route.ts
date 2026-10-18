@@ -1,11 +1,11 @@
 import { DubApiError } from "@/lib/api/errors";
 import { extractUtmParams } from "@/lib/api/utm/extract-utm-params";
 import { withWorkspace } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import { syncGroupUtmJob } from "@/lib/jobs/handlers/sync-group-utm-job";
 import { prisma } from "@/lib/prisma";
 import { updateUTMTemplateBodySchema } from "@/lib/zod/schemas/utm";
 import { constructURLFromUTMParams, deepEqual } from "@dub/utils";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 
 // PATCH /api/utm/[id] – update a UTM template

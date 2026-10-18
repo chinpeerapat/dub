@@ -1,6 +1,7 @@
 import { convertCurrency } from "@/lib/analytics/convert-currency";
 import { isFirstConversion } from "@/lib/analytics/is-first-conversion";
 import { Session } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import { getNormalizedEmail } from "@/lib/email/normalize-email";
 import { generateRandomName } from "@/lib/names";
 import { queuePartnerCommissionCreation } from "@/lib/partners/queue-partner-commission-creation";
@@ -26,7 +27,6 @@ import {
   Prisma,
   Project,
 } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import * as z from "zod/v4";
 import { createId } from "../create-id";
 import { getCustomerStripeInvoices } from "../customers/get-customer-stripe-invoices";

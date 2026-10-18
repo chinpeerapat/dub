@@ -1,5 +1,6 @@
 import { DubApiError } from "@/lib/api/errors";
 import { parseRequestBody } from "@/lib/api/utils";
+import { waitUntil } from "@/lib/backend/background";
 import { extractEmailDomain } from "@/lib/email/extract-email-domain";
 import { withReferralsEmbedToken } from "@/lib/embed/referrals/auth";
 import { prisma } from "@/lib/prisma";
@@ -10,7 +11,6 @@ import { RATELIMIT_POLICIES } from "@/lib/upstash/ratelimit-policies";
 import { emailSchema } from "@/lib/zod/schemas/auth";
 import { ACTIVE_ENROLLMENT_STATUSES } from "@/lib/zod/schemas/partners";
 import { TREMENDOUS_SUPPORTED_COUNTRIES } from "@dub/utils";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 import * as z from "zod/v4";
 

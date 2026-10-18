@@ -3,6 +3,7 @@ import {
   hasRewardAssignment,
   RewardOverrideIdsInput,
 } from "@/lib/api/rewards/reward-overrides";
+import { waitUntil } from "@/lib/backend/background";
 import { qstash } from "@/lib/cron";
 import { getPartnerEnrollmentInfo } from "@/lib/planetscale/get-partner-enrollment-info";
 import { prisma } from "@/lib/prisma";
@@ -18,7 +19,6 @@ import {
 } from "@dub/utils";
 import { linkConstructorSimple } from "@dub/utils/src/functions/link-constructor";
 import { Prisma } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { createId } from "../create-id";
 import { combineTagIds } from "../tags/combine-tag-ids";
 import { withPrismaRetry } from "../utils/with-prisma-retry";

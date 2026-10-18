@@ -3,6 +3,7 @@ import { User } from "next-auth";
 import { cookies } from "next/headers";
 
 export const trackDubLead = async (user: User) => {
+  if (!process.env.DUB_API_KEY) return;
   const cookieStore = await cookies();
   const clickId = cookieStore.get("dub_id")?.value;
 

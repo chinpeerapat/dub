@@ -2,12 +2,12 @@
 
 import { recordAuditLog } from "@/lib/api/audit-logs/record-audit-log";
 import { getDefaultProgramIdOrThrow } from "@/lib/api/programs/get-default-program-id-or-throw";
+import { waitUntil } from "@/lib/backend/background";
 import { getFeatureFlags } from "@/lib/edge-config";
 import { prisma } from "@/lib/prisma";
 import { SUBMITTED_LEAD_FORM_REQUIRED_FIELD_KEYS } from "@/lib/submitted-leads/constants";
 import { DEFAULT_PARTNER_GROUP } from "@/lib/zod/schemas/groups";
 import { submittedLeadFormSchema } from "@/lib/zod/schemas/submitted-lead-form";
-import { waitUntil } from "@vercel/functions";
 import * as z from "zod/v4";
 import { authActionClient } from "../actions/safe-action";
 import { throwIfNoPermission } from "../actions/throw-if-no-permission";
@@ -25,7 +25,8 @@ export const updateSubmittedLeadFormAction = authActionClient
   .inputSchema(schema)
   .action(async ({ parsedInput, ctx }) => {
     const { workspace, user } = ctx;
-    const { submittedLeadFormData, enabledGroupIds, disabledGroupIds } = parsedInput;
+    const { submittedLeadFormData, enabledGroupIds, disabledGroupIds } =
+      parsedInput;
 
     const programId = getDefaultProgramIdOrThrow(workspace);
 

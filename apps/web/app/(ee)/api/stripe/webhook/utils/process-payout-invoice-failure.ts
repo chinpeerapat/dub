@@ -1,3 +1,4 @@
+import { waitUntil } from "@/lib/backend/background";
 import {
   DIRECT_DEBIT_PAYMENT_METHOD_TYPES,
   PAYOUT_FAILURE_FEE_CENTS,
@@ -7,7 +8,6 @@ import { createPaymentIntent } from "@/lib/stripe/create-payment-intent";
 import { sendBatchEmail } from "@dub/email";
 import PartnerPayoutFailed from "@dub/email/templates/partner-payout-failed";
 import { Invoice } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import Stripe from "stripe";
 
 export async function processPayoutInvoiceFailure({

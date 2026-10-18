@@ -1,4 +1,5 @@
 import { trackCommissionStatusUpdatesByProgram } from "@/lib/api/commissions/track-commission-update-activity-log";
+import { waitUntil } from "@/lib/backend/background";
 import {
   BELOW_MIN_WITHDRAWAL_FEE_CENTS,
   MIN_FORCE_WITHDRAWAL_AMOUNT_CENTS,
@@ -17,7 +18,6 @@ import {
   pluralize,
 } from "@dub/utils";
 import { Prisma, WorkspaceEnvironment } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { PARTNER_IDS_TO_LOG_PAYOUTS_FOR } from "../constants/misc";
 import { enqueueBatchJobs } from "../cron/enqueue-batch-jobs";
 import { createPayoutsIdempotencyKey } from "../payouts/create-payouts-idempotency-key";

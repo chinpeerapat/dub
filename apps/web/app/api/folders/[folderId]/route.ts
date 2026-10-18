@@ -1,12 +1,12 @@
 import { DubApiError } from "@/lib/api/errors";
 import { parseRequestBody } from "@/lib/api/utils";
 import { withWorkspace } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import { verifyFolderAccess } from "@/lib/folder/permissions";
 import { folderDeletedJob } from "@/lib/jobs/handlers/folder-deleted-job";
 import { getPlanCapabilities } from "@/lib/plan-capabilities";
 import { prisma } from "@/lib/prisma";
 import { FolderSchema, updateFolderSchema } from "@/lib/zod/schemas/folders";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 
 // GET /api/folders/[folderId] - get information about a folder

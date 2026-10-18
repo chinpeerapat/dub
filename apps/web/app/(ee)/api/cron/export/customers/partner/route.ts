@@ -88,8 +88,20 @@ export const POST = withCron(async ({ rawBody }) => {
       ? search.includes("@")
         ? { email: search }
         : {
-            email: { search: sanitizeFullTextSearch(search) },
-            name: { search: sanitizeFullTextSearch(search) },
+            OR: [
+              {
+                email: {
+                  contains: sanitizeFullTextSearch(search),
+                  mode: "insensitive" as const,
+                },
+              },
+              {
+                name: {
+                  contains: sanitizeFullTextSearch(search),
+                  mode: "insensitive" as const,
+                },
+              },
+            ],
           }
       : {}),
   };

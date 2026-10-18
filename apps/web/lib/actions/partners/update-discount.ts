@@ -4,11 +4,11 @@ import { recordAuditLog } from "@/lib/api/audit-logs/record-audit-log";
 import { getDiscountOrThrow } from "@/lib/api/partners/get-discount-or-throw";
 import { getDefaultProgramIdOrThrow } from "@/lib/api/programs/get-default-program-id-or-throw";
 import { revalidateProgramPublicPages } from "@/lib/api/programs/revalidate-program-public-pages";
+import { waitUntil } from "@/lib/backend/background";
 import { invalidateLinksForDiscountsJob } from "@/lib/jobs/handlers/invalidate-links-for-discounts-job";
 import { publishDiscountCodesCreationJob } from "@/lib/jobs/handlers/publish-discount-codes-creation-job";
 import { prisma } from "@/lib/prisma";
 import { updateDiscountSchema } from "@/lib/zod/schemas/discount";
-import { waitUntil } from "@vercel/functions";
 import { authActionClient } from "../safe-action";
 import { throwIfNoPermission } from "../throw-if-no-permission";
 

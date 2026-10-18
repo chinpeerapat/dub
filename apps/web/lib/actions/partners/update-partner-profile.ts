@@ -4,6 +4,7 @@ import { DubApiError } from "@/lib/api/errors";
 import { queuePartnerSearchSync } from "@/lib/api/partners/queue-partner-search-sync";
 import { throwIfNoPermission } from "@/lib/auth/partner-users/throw-if-no-permission";
 import { requestEmailChange } from "@/lib/auth/request-email-change";
+import { waitUntil } from "@/lib/backend/background";
 import { qstash } from "@/lib/cron";
 import { isReservedUsername } from "@/lib/edge-config";
 import { dispatchGroupUtmSyncForPartner } from "@/lib/partners/dispatch-partner-utm-sync";
@@ -32,7 +33,6 @@ import {
   validSlugRegex,
 } from "@dub/utils";
 import { Partner, PartnerProfileType } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import * as z from "zod/v4";
 import { uploadedImageSchema } from "../../zod/schemas/images";
 import { authPartnerActionClient } from "../safe-action";

@@ -1,6 +1,6 @@
+import { waitUntil } from "@/lib/backend/background";
 import { paypalEnv } from "@/lib/paypal/env";
 import { redis } from "@/lib/upstash/redis";
-import { waitUntil } from "@vercel/functions";
 
 interface PaypalTokenResponse {
   access_token: string;

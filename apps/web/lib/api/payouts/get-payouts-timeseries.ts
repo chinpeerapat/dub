@@ -25,14 +25,14 @@ export async function getPayoutsTimeseries({
     sqlGranularityMap.month;
 
   const payouts = await prisma.$queryRaw<PayoutsTimeseries[]>`
-        SELECT 
-          DATE_FORMAT(CONVERT_TZ(createdAt, "UTC", ${timezone || "UTC"}), ${dateFormat}) AS start, 
+        SELECT
+          to_char(createdAt AT TIME ZONE 'UTC' AT TIME ZONE ${timezone || "UTC"}, ${dateFormat}) AS start,
           SUM(amount) AS payouts
         FROM Invoice
-        WHERE 
+        WHERE
           workspaceId = ${workspaceId}
-          AND type = "partnerPayout"
-          AND status IN ("processing", "completed")
+          AND type = 'partnerPayout'
+          AND status IN ('processing', 'completed')
           AND createdAt >= ${startDate}
           AND createdAt < ${endDate}
         GROUP BY start

@@ -4,10 +4,10 @@ import { resolveFraudGroups } from "@/lib/api/fraud/resolve-fraud-groups";
 import { getDefaultProgramIdOrThrow } from "@/lib/api/programs/get-default-program-id-or-throw";
 import { parseRequestBody } from "@/lib/api/utils";
 import { withWorkspace } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import { updateFraudRuleSettingsSchema } from "@/lib/zod/schemas/fraud";
 import { FraudRuleType, Prisma } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 
 const defaultFraudRuleOverrides: Partial<

@@ -1,8 +1,8 @@
+import { waitUntil } from "@/lib/backend/background";
 import { processPartnerGroupChangeJob } from "@/lib/jobs/handlers/process-partner-group-change-job";
 import { prisma } from "@/lib/prisma";
 import { nanoid, pluck } from "@dub/utils";
 import { PartnerGroup, Prisma } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { buildProgramEnrollmentChangeSet } from "../activity-log/build-program-enrollment-change-set";
 import { trackActivityLogsTx } from "../activity-log/track-activity-log";
 import { DubApiError } from "../errors";

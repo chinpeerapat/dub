@@ -1,5 +1,5 @@
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
-import { waitUntil } from "@vercel/functions";
 import { queueDomainUpdate } from "./queue-domain-update";
 
 export async function updateProgramDomain({

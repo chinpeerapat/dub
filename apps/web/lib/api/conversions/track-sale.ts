@@ -3,6 +3,7 @@ import { isFirstConversion } from "@/lib/analytics/is-first-conversion";
 import { getOrCreateCustomer } from "@/lib/api/customers/get-or-create-customer";
 import { DubApiError } from "@/lib/api/errors";
 import { includeTags } from "@/lib/api/links/include-tags";
+import { waitUntil } from "@/lib/backend/background";
 import { getNormalizedEmail } from "@/lib/email/normalize-email";
 import { queueGoogleAdsConversionUpload } from "@/lib/integrations/google-ads/upload-conversion";
 import { generateRandomName } from "@/lib/names";
@@ -29,7 +30,6 @@ import {
 } from "@/lib/zod/schemas/sales";
 import { nanoid, R2_URL } from "@dub/utils";
 import { CommissionSource, Customer, EventType } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import * as z from "zod/v4";
 import { createId } from "../create-id";
 import { syncPartnerLinksStats } from "../partners/sync-partner-links-stats";

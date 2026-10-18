@@ -5,6 +5,7 @@ import { isCI, isLocalDev } from "@/lib/api/environment";
 import { generatePartnerUsername } from "@/lib/api/partners/generate-partner-username";
 import { queuePartnerSearchSync } from "@/lib/api/partners/queue-partner-search-sync";
 import { markApplicationEventSubmittedNetwork } from "@/lib/application-events/mark-application-event-submitted-network";
+import { waitUntil } from "@/lib/backend/background";
 import { completeProgramApplications } from "@/lib/partners/complete-program-applications";
 import { dispatchGroupUtmSyncForPartner } from "@/lib/partners/dispatch-partner-utm-sync";
 import { prisma } from "@/lib/prisma";
@@ -12,7 +13,6 @@ import { storage } from "@/lib/storage";
 import { onboardPartnerSchema } from "@/lib/zod/schemas/partners";
 import { nanoid } from "@dub/utils";
 import { Prisma } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { headers } from "next/headers";
 import { authUserActionClient } from "../safe-action";
 

@@ -1,11 +1,11 @@
 import { handleAndReturnErrorResponse } from "@/lib/api/errors";
+import { ipAddress } from "@/lib/backend/request";
 import { createSignedUploadUrl } from "@/lib/storage/create-signed-upload-url";
 import { signedUploadInputSchema } from "@/lib/storage/schemas";
 import { validateSignedUpload } from "@/lib/storage/validate-signed-upload";
 import { assertRateLimit } from "@/lib/upstash/assert-rate-limit";
 import { RATELIMIT_POLICIES } from "@/lib/upstash/ratelimit-policies";
-import { LOCALHOST_IP, nanoid } from "@dub/utils";
-import { ipAddress } from "@vercel/functions";
+import { nanoid } from "@dub/utils";
 import { NextRequest, NextResponse } from "next/server";
 
 const CORS_HEADERS = new Headers({
@@ -32,7 +32,7 @@ export const POST = async (req: NextRequest) => {
       policy: "resumes",
     });
 
-    const ip = process.env.VERCEL === "1" ? ipAddress(req) : LOCALHOST_IP;
+    const ip = ipAddress(req) || "";
 
     if (ip) {
       await assertRateLimit({

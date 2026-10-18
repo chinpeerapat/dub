@@ -9,6 +9,7 @@ import { getIP } from "@/lib/api/utils/get-ip";
 import { markApplicationEventSubmitted } from "@/lib/application-events/update-application-event";
 import { getApplicationEventCookieName } from "@/lib/application-events/utils";
 import { getSession } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import { autoRejectProgramApplicationJob } from "@/lib/jobs/handlers/auto-reject-program-application-job";
 import { programApplicationReminderJob } from "@/lib/jobs/handlers/program-application-reminder-job";
 import { getNetworkProfileChecklistProgress } from "@/lib/network/get-network-profile-checklist-progress";
@@ -45,7 +46,6 @@ import {
   Project,
   ReapplicationTimeframe,
 } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { addDays } from "date-fns";
 import { cookies, headers } from "next/headers";
 import * as z from "zod/v4";

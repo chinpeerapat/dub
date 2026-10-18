@@ -1,10 +1,10 @@
 import { getOwnedLinkImageKey } from "@/lib/api/links/get-owned-link-image-key";
 import { queuePartnerSearchSync } from "@/lib/api/partners/queue-partner-search-sync";
+import { waitUntil } from "@/lib/backend/background";
 import { deleteDiscountCodes } from "@/lib/discounts/delete-discount-code";
 import { prisma } from "@/lib/prisma";
 import { storage } from "@/lib/storage";
 import { recordLink } from "@/lib/tinybird";
-import { waitUntil } from "@vercel/functions";
 import { linkCache } from "./cache";
 import { includeProgramEnrollment } from "./include-program-enrollment";
 import { includeTags } from "./include-tags";

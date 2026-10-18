@@ -3,6 +3,7 @@ import { DubApiError } from "@/lib/api/errors";
 import { scopesToName, validateScopesForRole } from "@/lib/api/tokens/scopes";
 import { parseRequestBody } from "@/lib/api/utils";
 import { hashToken, withWorkspace } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import { generateRandomName } from "@/lib/names";
 import { prisma } from "@/lib/prisma";
 import { isProductionEnvironment } from "@/lib/sandbox/environment";
@@ -13,7 +14,6 @@ import { sendEmail } from "@dub/email";
 import APIKeyCreated from "@dub/email/templates/api-key-created";
 import { nanoid } from "@dub/utils";
 import { Prisma, User } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 import * as z from "zod/v4";
 

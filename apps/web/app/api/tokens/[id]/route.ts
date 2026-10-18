@@ -3,9 +3,9 @@ import { validateScopesForRole } from "@/lib/api/tokens/scopes";
 import { parseRequestBody } from "@/lib/api/utils";
 import { withWorkspace } from "@/lib/auth";
 import { tokenCache } from "@/lib/auth/token-cache";
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import { tokenSchema, updateTokenSchema } from "@/lib/zod/schemas/token";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 
 // GET /api/tokens/:id - get info about a specific token

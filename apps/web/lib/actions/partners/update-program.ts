@@ -3,13 +3,13 @@
 import { recordAuditLog } from "@/lib/api/audit-logs/record-audit-log";
 import { getDefaultProgramIdOrThrow } from "@/lib/api/programs/get-default-program-id-or-throw";
 import { revalidateProgramPublicPages } from "@/lib/api/programs/revalidate-program-public-pages";
+import { waitUntil } from "@/lib/backend/background";
 import {
   ALLOWED_MIN_PAYOUT_AMOUNTS,
   getAllowedMinPayoutAmounts,
 } from "@/lib/constants/payouts";
 import { getPlanCapabilities } from "@/lib/plan-capabilities";
 import { prisma } from "@/lib/prisma";
-import { waitUntil } from "@vercel/functions";
 import * as z from "zod/v4";
 import { getProgramOrThrow } from "../../api/programs/get-program-or-throw";
 import { ProgramSchema, updateProgramSchema } from "../../zod/schemas/programs";

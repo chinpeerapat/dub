@@ -1,6 +1,7 @@
 import { recordAuditLog } from "@/lib/api/audit-logs/record-audit-log";
 import { DubApiError } from "@/lib/api/errors";
 import { Session } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import {
   buildMilestonesCommissionDescription,
   getPendingSocialMetricsMilestones,
@@ -21,7 +22,6 @@ import {
   CommissionSource,
   Prisma,
 } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import * as z from "zod/v4";
 
 interface ApproveBountySubmissionParams

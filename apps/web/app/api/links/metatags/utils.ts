@@ -1,11 +1,11 @@
 import { safeFetch } from "@/lib/api/safe-fetch";
+import { waitUntil } from "@/lib/backend/background";
 import { recordMetatags } from "@/lib/upstash";
 import {
   linkPreviewImageBase64PrefixRegex,
   publicHostedImageSchema,
 } from "@/lib/zod/schemas/images";
 import { isValidUrl } from "@dub/utils";
-import { waitUntil } from "@vercel/functions";
 import he from "he";
 import { parse } from "node-html-parser";
 

@@ -1,14 +1,10 @@
-import {
-  LOCALHOST_GEO_DATA,
-  LOCALHOST_IP,
-  capitalize,
-  fetchWithRetry,
-  getDomainWithoutWWW,
-} from "@dub/utils";
+import { waitUntil } from "@/lib/backend/background";
+import { geolocation, ipAddress } from "@/lib/backend/request";
+import { capitalize, getDomainWithoutWWW } from "@dub/utils";
 import { EU_COUNTRY_CODES } from "@dub/utils/src/constants/countries";
-import { geolocation, ipAddress, waitUntil } from "@vercel/functions";
 import { userAgent } from "next/server";
 import { recordClickCache } from "../api/links/record-click-cache";
+import { ingestEvents } from "../backend/analytics";
 import { detectBot } from "../middleware/utils/detect-bot";
 import { detectQr } from "../middleware/utils/detect-qr";
 import { getIdentityHash } from "../middleware/utils/get-identity-hash";
@@ -108,17 +104,16 @@ export async function recordClick({
   // interesting, geolocation().region is Vercel's edge region – NOT the actual region
   // so we use the x-vercel-ip-country-region to get the actual region
   const { continent, region } =
-    process.env.VERCEL === "1"
+    process.env.TRUST_PROXY === "true"
       ? {
-          continent: req.headers.get("x-vercel-ip-continent"),
-          region: req.headers.get("x-vercel-ip-country-region"),
+          continent: geolocation(req).continent,
+          region: geolocation(req).countryRegion,
         }
-      : LOCALHOST_GEO_DATA;
+      : { continent: undefined, region: undefined };
 
-  const geo =
-    process.env.VERCEL === "1" ? geolocation(req) : LOCALHOST_GEO_DATA;
+  const geo = geolocation(req);
 
-  const ip = process.env.VERCEL === "1" ? ipAddress(req) : LOCALHOST_IP;
+  const ip = ipAddress(req) || "";
   const isEuCountry = geo.country && EU_COUNTRY_CODES.includes(geo.country);
 
   const referer = referrer || req.headers.get("referer");
@@ -169,16 +164,7 @@ export async function recordClick({
   waitUntil(
     (async () => {
       const response = await Promise.allSettled([
-        fetchWithRetry(
-          `${process.env.TINYBIRD_API_URL}/v0/events?name=dub_click_events&wait=true`,
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${process.env.TINYBIRD_API_KEY}`,
-            },
-            body: JSON.stringify(clickData),
-          },
-        ).then((res) => res.json()),
+        ingestEvents("dub_click_events", [clickData]),
 
         // cache the recorded click for the corresponding IP address in Redis for 1 hour
         recordClickCache.set({

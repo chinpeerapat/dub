@@ -2,13 +2,13 @@ import { DubApiError, handleAndReturnErrorResponse } from "@/lib/api/errors";
 import { parseRequestBody } from "@/lib/api/utils";
 import { getIP } from "@/lib/api/utils/get-ip";
 import { hashPassword, validatePassword } from "@/lib/auth/password";
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import { assertRateLimit } from "@/lib/upstash/assert-rate-limit";
 import { RATELIMIT_POLICIES } from "@/lib/upstash/ratelimit-policies";
 import { resetPasswordSchema } from "@/lib/zod/schemas/auth";
 import { sendEmail } from "@dub/email";
 import PasswordUpdated from "@dub/email/templates/password-updated";
-import { waitUntil } from "@vercel/functions";
 import { NextRequest, NextResponse } from "next/server";
 
 // POST /api/auth/reset-password - reset password using the reset token

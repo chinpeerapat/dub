@@ -2,6 +2,7 @@ import { createId } from "@/lib/api/create-id";
 import { getOrCreateCustomer } from "@/lib/api/customers/get-or-create-customer";
 import { DubApiError } from "@/lib/api/errors";
 import { includeTags } from "@/lib/api/links/include-tags";
+import { waitUntil } from "@/lib/backend/background";
 import { getNormalizedEmail } from "@/lib/email/normalize-email";
 import { queueGoogleAdsConversionUpload } from "@/lib/integrations/google-ads/upload-conversion";
 import { generateRandomName } from "@/lib/names";
@@ -20,7 +21,6 @@ import {
 } from "@/lib/zod/schemas/leads";
 import { nanoid, R2_URL } from "@dub/utils";
 import { CommissionSource, EventType, Link } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import * as z from "zod/v4";
 import { syncPartnerLinksStats } from "../partners/sync-partner-links-stats";
 import { executeWorkflows } from "../workflows/execute-workflows";

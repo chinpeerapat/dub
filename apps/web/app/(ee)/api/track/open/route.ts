@@ -5,6 +5,8 @@ import { linkCache } from "@/lib/api/links/cache";
 import { recordClickCache } from "@/lib/api/links/record-click-cache";
 import { parseRequestBody } from "@/lib/api/utils";
 import { withAxiom } from "@/lib/axiom/server";
+import { waitUntil } from "@/lib/backend/background";
+import { ipAddress } from "@/lib/backend/request";
 import { DeepLinkClickData } from "@/lib/middleware/utils/cache-deeplink-click-data";
 import { getIdentityHash } from "@/lib/middleware/utils/get-identity-hash";
 import { getLinkViaEdge } from "@/lib/planetscale";
@@ -15,8 +17,7 @@ import {
   trackOpenRequestSchema,
   trackOpenResponseSchema,
 } from "@/lib/zod/schemas/opens";
-import { LOCALHOST_IP, nanoid } from "@dub/utils";
-import { ipAddress, waitUntil } from "@vercel/functions";
+import { nanoid } from "@dub/utils";
 import { NextResponse } from "next/server";
 
 // POST /api/track/open – Track an open event for deep link
@@ -32,7 +33,7 @@ export const POST = withAxiom(async (req) => {
       await parseRequestBody(req),
     );
 
-    const ip = process.env.VERCEL === "1" ? ipAddress(req) : LOCALHOST_IP;
+    const ip = ipAddress(req) || "";
     const identityHash = await getIdentityHash(req);
 
     if (!deepLinkUrl) {

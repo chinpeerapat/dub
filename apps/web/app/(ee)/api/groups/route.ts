@@ -5,6 +5,7 @@ import { getGroups } from "@/lib/api/groups/get-groups";
 import { getDefaultProgramIdOrThrow } from "@/lib/api/programs/get-default-program-id-or-throw";
 import { parseRequestBody } from "@/lib/api/utils";
 import { withWorkspace } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import { exceededLimitError } from "@/lib/exceeded-limit-error";
 import { prisma } from "@/lib/prisma";
 import {
@@ -15,7 +16,6 @@ import {
   GroupSchemaExtended,
   sanitizeAdditionalLinks,
 } from "@/lib/zod/schemas/groups";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 import * as z from "zod/v4";
 

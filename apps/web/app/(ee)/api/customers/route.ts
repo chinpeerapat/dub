@@ -4,6 +4,7 @@ import { DubApiError } from "@/lib/api/errors";
 import { getDefaultProgramIdOrThrow } from "@/lib/api/programs/get-default-program-id-or-throw";
 import { parseRequestBody } from "@/lib/api/utils";
 import { withWorkspace } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import { getCustomers } from "@/lib/customers/api/get-customers";
 import { getNormalizedEmail } from "@/lib/email/normalize-email";
 import { generateRandomName } from "@/lib/names";
@@ -17,7 +18,6 @@ import {
 } from "@/lib/zod/schemas/customers";
 import { DiscountSchemaWithDeprecatedFields } from "@/lib/zod/schemas/discount";
 import { nanoid, R2_URL } from "@dub/utils";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 
 // GET /api/customers – Get all customers

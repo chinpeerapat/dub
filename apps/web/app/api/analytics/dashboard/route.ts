@@ -2,12 +2,12 @@ import { getFirstFilterValue } from "@/lib/analytics/filter-helpers";
 import { getAnalytics } from "@/lib/analytics/get-analytics";
 import { DubApiError, handleAndReturnErrorResponse } from "@/lib/api/errors";
 import { assertValidDateRangeForPlan } from "@/lib/api/utils/assert-valid-date-range-for-plan";
+import { waitUntil } from "@/lib/backend/background";
 import { exceededLimitError } from "@/lib/exceeded-limit-error";
 import { prisma } from "@/lib/prisma";
 import { redis } from "@/lib/upstash";
 import { parseAnalyticsQuery } from "@/lib/zod/schemas/analytics";
 import { DUB_DEMO_LINKS, DUB_WORKSPACE_ID, getSearchParams } from "@dub/utils";
-import { waitUntil } from "@vercel/functions";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 

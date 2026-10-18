@@ -1,10 +1,10 @@
 import { getAnalytics } from "@/lib/analytics/get-analytics";
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import { recordLink } from "@/lib/tinybird";
 import { sendWorkspaceWebhook } from "@/lib/webhook/publish";
 import { ABTestVariantsSchema, linkEventSchema } from "@/lib/zod/schemas/links";
 import { Link } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { linkCache } from "./cache";
 import { includeProgramEnrollment } from "./include-program-enrollment";
 import { includeTags } from "./include-tags";

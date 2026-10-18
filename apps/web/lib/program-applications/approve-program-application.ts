@@ -6,6 +6,7 @@ import { movePartnersToGroup } from "@/lib/api/groups/move-partners-to-group";
 import { throwIfInvalidPartnerTags } from "@/lib/api/partner-tags/throw-if-invalid-partner-tags";
 import { queuePartnerSearchSync } from "@/lib/api/partners/queue-partner-search-sync";
 import { trackApplicationEvents } from "@/lib/application-events/update-application-event";
+import { waitUntil } from "@/lib/backend/background";
 import { dispatchWorkflows } from "@/lib/jobs/publish-workflows";
 import { throwIfPartnersLimitExceeded } from "@/lib/partners/throw-if-partners-limit-exceeded";
 import { prisma } from "@/lib/prisma";
@@ -15,7 +16,6 @@ import {
   ProgramEnrollment,
   ProgramEnrollmentStatus,
 } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import * as z from "zod/v4";
 
 type ApproveProgramApplicationInput = z.infer<

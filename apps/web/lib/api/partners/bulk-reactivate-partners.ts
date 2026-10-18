@@ -1,9 +1,9 @@
+import { waitUntil } from "@/lib/backend/background";
 import { PRISMA_UPDATEMANY_LIMIT } from "@/lib/cron";
 import { prisma } from "@/lib/prisma";
 import { sendBatchEmail } from "@dub/email";
 import PartnerReactivated from "@dub/email/templates/partner-reactivated";
 import { Partner, Program, ProgramEnrollment } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { trackActivityLog } from "../activity-log/track-activity-log";
 import { linkCache } from "../links/cache";
 import { queuePartnerSearchSync } from "./queue-partner-search-sync";

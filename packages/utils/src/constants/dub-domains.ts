@@ -1,6 +1,6 @@
 import { DUB_WORKSPACE_ID, SHORT_DOMAIN } from "./main";
 
-export const DUB_DOMAINS = [
+const upstreamDomains = [
   {
     id: "clce1z7ch00j0rbstbjufva4j",
     slug: SHORT_DOMAIN,
@@ -132,6 +132,10 @@ export const DUB_DOMAINS = [
     projectId: DUB_WORKSPACE_ID,
   },
 ];
+
+export const DUB_DOMAINS = upstreamDomains.filter(
+  (domain) => domain.slug === SHORT_DOMAIN,
+);
 
 export const DUB_DOMAINS_ARRAY = DUB_DOMAINS.map((domain) => domain.slug);
 

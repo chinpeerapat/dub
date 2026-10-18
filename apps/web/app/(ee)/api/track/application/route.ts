@@ -10,6 +10,8 @@ import {
 import { getApplicationEventCookieName } from "@/lib/application-events/utils";
 import { getSession } from "@/lib/auth";
 import { withAxiom } from "@/lib/axiom/server";
+import { waitUntil } from "@/lib/backend/background";
+import { geolocation, ipAddress } from "@/lib/backend/request";
 import { detectBot } from "@/lib/middleware/utils/detect-bot";
 import { getIdentityHash } from "@/lib/middleware/utils/get-identity-hash";
 import { prisma } from "@/lib/prisma";
@@ -34,7 +36,6 @@ import {
   NETWORK_WORKSPACE_ID,
 } from "@dub/utils";
 import { Partner, Program } from "@prisma/client";
-import { geolocation, ipAddress, waitUntil } from "@vercel/functions";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse, userAgent } from "next/server";
 

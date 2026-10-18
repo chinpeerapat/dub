@@ -11,6 +11,7 @@ import { getProgramOrThrow } from "@/lib/api/programs/get-program-or-throw";
 import { parseRequestBody } from "@/lib/api/utils";
 import { applyGroupUtmToLink } from "@/lib/api/utm/apply-group-utm-to-link";
 import { withWorkspace } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import { throwIfNoPartnerIdOrTenantId } from "@/lib/partners/throw-if-no-partnerid-tenantid";
 import { prisma } from "@/lib/prisma";
 import { NewLinkProps } from "@/lib/types";
@@ -18,7 +19,6 @@ import { sendWorkspaceWebhook } from "@/lib/webhook/publish";
 import { linkEventSchema } from "@/lib/zod/schemas/links";
 import { upsertPartnerLinkSchema } from "@/lib/zod/schemas/partners";
 import { deepEqual } from "@dub/utils";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 
 // PUT /api/partners/links/upsert – update or create a partner link

@@ -1,11 +1,11 @@
 import { logger } from "@/lib/axiom/server";
+import { serve } from "@/lib/backend/workflow";
 import {
   detachDiscountFromLinkRewards,
   detachDiscountFromProgramEnrollments,
   dispatchRemapDiscountCodes,
 } from "@/lib/discounts/detach-discount";
 import { prisma } from "@/lib/prisma";
-import { serve } from "@upstash/workflow/nextjs";
 import * as z from "zod/v4";
 import { logAndReturn } from "../../cron/utils";
 

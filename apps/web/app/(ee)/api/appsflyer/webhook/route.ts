@@ -5,6 +5,7 @@ import { isLocalDev } from "@/lib/api/environment";
 import { DubApiError, handleAndReturnErrorResponse } from "@/lib/api/errors";
 import { getIP } from "@/lib/api/utils/get-ip";
 import { withAxiom } from "@/lib/axiom/server";
+import { waitUntil } from "@/lib/backend/background";
 import { appsflyerAmountToDubCents } from "@/lib/integrations/appsflyer/amount-to-dub-cents";
 import { APPSFLYER_IP_RANGES } from "@/lib/integrations/appsflyer/constants";
 import { isIpInRange } from "@/lib/middleware/utils/is-ip-in-range";
@@ -13,7 +14,6 @@ import { trackLeadRequestSchema } from "@/lib/zod/schemas/leads";
 import { trackSaleRequestSchema } from "@/lib/zod/schemas/sales";
 import { APPSFLYER_INTEGRATION_ID, getSearchParams } from "@dub/utils";
 import { CommissionSource, Project } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import * as z from "zod/v4";
 import { logAndRespond } from "../../cron/utils";
 
@@ -64,7 +64,7 @@ export const GET = withAxiom(async (req) => {
       where: {
         integrationId: APPSFLYER_INTEGRATION_ID,
         settings: {
-          path: "$.appIds",
+          path: ["appIds"],
           array_contains: appId,
         },
       },

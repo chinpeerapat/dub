@@ -112,7 +112,7 @@ export async function POST(req: Request) {
     // cannot start a second broadcast. A QStash retry of the claiming
     // message (matching qstashMessageId) is allowed to continue.
     if (!startingAfter) {
-      const messageId = req.headers.get("Upstash-Message-Id");
+      const messageId = req.headers.get("x-dub-message-id");
 
       const claimed = await prisma.campaign.updateMany({
         where: {

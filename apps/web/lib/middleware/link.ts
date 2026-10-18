@@ -1,3 +1,4 @@
+import { geolocation } from "@/lib/backend/request";
 import { recordClick as recordClickJob } from "@/lib/tinybird";
 import { formatRedisLink } from "@/lib/upstash";
 import {
@@ -13,7 +14,6 @@ import {
   nanoid,
   punyEncode,
 } from "@dub/utils";
-import { geolocation } from "@vercel/functions";
 import { cookies } from "next/headers";
 import {
   NextFetchEvent,
@@ -370,10 +370,7 @@ export async function LinkMiddleware(req: NextRequest, ev: NextFetchEvent) {
   const isBot = detectBot(req);
   const ua = userAgent(req);
 
-  const { country } =
-    process.env.VERCEL === "1" && geolocation(req)
-      ? geolocation(req)
-      : LOCALHOST_GEO_DATA;
+  const { country } = geolocation(req) ? geolocation(req) : LOCALHOST_GEO_DATA;
 
   // rewrite to proxy page ([domain]/[key]/proxy) if it's a bot and proxy is enabled
   if (isBot && proxy) {

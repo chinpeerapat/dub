@@ -1,9 +1,9 @@
+import { waitUntil } from "@/lib/backend/background";
 import { BOUNTY_SOCIAL_PLATFORM_VALUES } from "@/lib/bounty/social-content";
 import { SocialContent } from "@/lib/types";
 import { redis } from "@/lib/upstash";
 import { hashStringSHA256, isValidUrl } from "@dub/utils";
 import { PlatformType } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { scrapeCreatorsFetch } from "./client";
 
 const CACHE_KEY_PREFIX = "socialContentCache";

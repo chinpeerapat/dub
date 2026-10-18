@@ -1,7 +1,7 @@
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import { R2_URL } from "@dub/utils";
 import { WorkspaceRole } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { updateConfig } from "../edge-config";
 import { extractEmailDomain } from "../email/extract-email-domain";
 import { isStored, storage } from "../storage";

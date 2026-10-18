@@ -26,7 +26,7 @@ export const sendViaNodeMailer = async ({
   });
 
   return await transporter.sendMail({
-    from: "noreply@example.com",
+    from: process.env.SMTP_FROM || "Dub <noreply@localhost>",
     to,
     subject,
     text,

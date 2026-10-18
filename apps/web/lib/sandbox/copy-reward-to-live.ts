@@ -1,12 +1,12 @@
 "use server";
 
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import {
   assertProductionWorkspace,
   assertStagingWorkspace,
 } from "@/lib/sandbox/workspace-guards";
 import { INACTIVE_ENROLLMENT_STATUSES } from "@/lib/zod/schemas/partners";
-import { waitUntil } from "@vercel/functions";
 import { authActionClient } from "../actions/safe-action";
 import { throwIfNoPermission } from "../actions/throw-if-no-permission";
 import { trackRewardActivityLog } from "../api/activity-log/track-reward-activity-log";

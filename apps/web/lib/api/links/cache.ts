@@ -1,3 +1,5 @@
+import { waitUntil } from "@/lib/backend/background";
+import { getCache } from "@/lib/backend/request";
 import { getLinkViaEdge } from "@/lib/planetscale";
 import { LinkProps, RedisLinkProps } from "@/lib/types";
 import {
@@ -5,7 +7,6 @@ import {
   redisGlobal,
   redisGlobalWithTimeout,
 } from "@/lib/upstash";
-import { getCache, waitUntil } from "@vercel/functions";
 import { LRUCache } from "lru-cache";
 import { revalidateTag } from "next/cache";
 import { decodeKey, isCaseSensitiveDomain } from "./case-sensitivity";

@@ -4,12 +4,12 @@ import { trackActivityLog } from "@/lib/api/activity-log/track-activity-log";
 import { queuePartnerSearchSync } from "@/lib/api/partners/queue-partner-search-sync";
 import { getDefaultProgramIdOrThrow } from "@/lib/api/programs/get-default-program-id-or-throw";
 import { getProgramEnrollmentOrThrow } from "@/lib/api/programs/get-program-enrollment-or-throw";
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import {
   ACTIVE_ENROLLMENT_STATUSES,
   archivePartnerSchema,
 } from "@/lib/zod/schemas/partners";
-import { waitUntil } from "@vercel/functions";
 import { authActionClient } from "../safe-action";
 import { throwIfNoPermission } from "../throw-if-no-permission";
 

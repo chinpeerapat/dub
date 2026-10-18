@@ -1,10 +1,10 @@
 import { convertCurrency } from "@/lib/analytics/convert-currency";
+import { waitUntil } from "@/lib/backend/background";
 import { MUTABLE_PAYOUT_STATUSES } from "@/lib/constants/payouts";
 import { determinePartnerReward } from "@/lib/partners/determine-partner-reward";
 import { prisma } from "@/lib/prisma";
 import { updateCommissionSchemaExtended } from "@/lib/zod/schemas/commissions";
 import { Commission } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import * as z from "zod/v4";
 import { DubApiError } from "../errors";
 import { syncTotalCommissions } from "../partners/sync-total-commissions";

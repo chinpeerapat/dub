@@ -69,8 +69,7 @@ export async function executeWorkflows({
       disabledAt: null,
       OR: attributes.map((attribute) => ({
         triggerConditions: {
-          path: "$[*].attribute",
-          array_contains: attribute,
+          array_contains: [{ attribute }],
         },
       })),
     },

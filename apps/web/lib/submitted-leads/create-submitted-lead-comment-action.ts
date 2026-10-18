@@ -1,6 +1,7 @@
 "use server";
 
 import { getDefaultProgramIdOrThrow } from "@/lib/api/programs/get-default-program-id-or-throw";
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import { getSubmittedLeadOrThrow } from "@/lib/submitted-leads/get-submitted-lead-or-throw";
 import { enqueueSubmittedLeadCommentNotification } from "@/lib/submitted-leads/submitted-lead-comment-notifications";
@@ -8,7 +9,6 @@ import {
   SubmittedLeadCommentSchema,
   createSubmittedLeadCommentSchema,
 } from "@/lib/zod/schemas/submitted-leads";
-import { waitUntil } from "@vercel/functions";
 import { authActionClient } from "../actions/safe-action";
 import { throwIfNoPermission } from "../actions/throw-if-no-permission";
 

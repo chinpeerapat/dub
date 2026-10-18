@@ -51,7 +51,6 @@ export abstract class PostbackAdapter {
       body: transformedPayload,
       headers: {
         "Dub-Signature": signature,
-        "Upstash-Hide-Headers": "true",
       },
     });
 

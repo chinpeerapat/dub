@@ -1,6 +1,6 @@
+import { waitUntil } from "@/lib/backend/background";
 import { createPlainThread } from "@/lib/plain/create-plain-thread";
 import { prisma } from "@/lib/prisma";
-import { waitUntil } from "@vercel/functions";
 import * as z from "zod/v4";
 
 const schema = z.object({

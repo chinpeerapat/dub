@@ -1,10 +1,10 @@
 import { getWorkspaceLogoStorageKey } from "@/lib/api/workspaces/workspace-logo";
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import { assertNotStagingWorkspace } from "@/lib/sandbox/workspace-guards";
 import { storage } from "@/lib/storage";
 import { WorkspaceProps } from "@/lib/types";
 import { APP_DOMAIN_WITH_NGROK } from "@dub/utils";
-import { waitUntil } from "@vercel/functions";
 import { qstash } from "../../cron";
 import { cancelSubscription } from "../../stripe/cancel-subscription";
 

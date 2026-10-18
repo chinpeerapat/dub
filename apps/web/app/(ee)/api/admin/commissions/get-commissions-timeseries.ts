@@ -28,11 +28,11 @@ export async function getCommissionsTimeseries({
     sqlGranularityMap[granularity];
 
   const commissions = await prisma.$queryRaw<Commission[]>`
-        SELECT 
-          DATE_FORMAT(CONVERT_TZ(createdAt, "UTC", ${timezone || "UTC"}), ${dateFormat}) AS start, 
+        SELECT
+          to_char(createdAt AT TIME ZONE 'UTC' AT TIME ZONE ${timezone || "UTC"}, ${dateFormat}) AS start,
           SUM(earnings) AS commissions
         FROM Commission
-        WHERE 
+        WHERE
           createdAt >= ${startDate}
           AND createdAt < ${endDate}
           AND status IN ("pending", "processed", "paid")

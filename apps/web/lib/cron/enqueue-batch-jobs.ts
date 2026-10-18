@@ -1,5 +1,5 @@
+import type { PublishBatchRequest } from "@/lib/backend/queue";
 import { log, sleep } from "@dub/utils";
-import type { PublishBatchRequest } from "@upstash/qstash";
 import { qstash } from ".";
 
 type EnqueueBatchJobsProps = PublishBatchRequest<unknown> & {

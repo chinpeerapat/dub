@@ -1,5 +1,5 @@
 import { createId } from "@/lib/api/create-id";
-import { redis } from "@/lib/upstash";
+import { redis } from "@/lib/upstash/redis";
 import {
   EMBED_PUBLIC_TOKEN_EXPIRY,
   EMBED_PUBLIC_TOKEN_PREFIX,
@@ -16,7 +16,7 @@ class ReferralsEmbedToken {
       prefix: EMBED_PUBLIC_TOKEN_PREFIX,
     });
 
-    await redis.set(publicToken, JSON.stringify(props), {
+    await redis.set(publicToken, props, {
       ex: EMBED_PUBLIC_TOKEN_EXPIRY,
       nx: true,
     });

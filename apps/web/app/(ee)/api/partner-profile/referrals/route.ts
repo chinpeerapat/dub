@@ -2,6 +2,7 @@ import { createId } from "@/lib/api/create-id";
 import { DubApiError } from "@/lib/api/errors";
 import { obfuscateCustomerEmail } from "@/lib/api/partner-profile/obfuscate-customer-email";
 import { withPartnerProfile } from "@/lib/auth/partner";
+import { waitUntil } from "@/lib/backend/background";
 import { dispatchWorkflows } from "@/lib/jobs/publish-workflows";
 import {
   getNetworkReferralsQuerySchema,
@@ -16,7 +17,6 @@ import {
   NETWORK_USER_ID,
 } from "@dub/utils/src/constants/main";
 import { CommissionType } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 import * as z from "zod/v4";
 

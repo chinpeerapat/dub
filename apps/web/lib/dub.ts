@@ -4,6 +4,7 @@ export const dub = new Dub();
 
 // fetch Dub customer using their external ID (ID in our database)
 export const getDubCustomer = async (userId: string) => {
+  if (!process.env.DUB_API_KEY) return null;
   try {
     const { result: customers } = await dub.customers.list({
       externalId: userId,

@@ -4,6 +4,7 @@ import { recordAuditLog } from "@/lib/api/audit-logs/record-audit-log";
 import { createId } from "@/lib/api/create-id";
 import { getGroupOrThrow } from "@/lib/api/groups/get-group-or-throw";
 import { getDefaultProgramIdOrThrow } from "@/lib/api/programs/get-default-program-id-or-throw";
+import { waitUntil } from "@/lib/backend/background";
 import { getDiscountProvider } from "@/lib/discounts/discount-provider";
 import { attachDiscountJob } from "@/lib/jobs/handlers/attach-discount-job";
 import { getPlanCapabilities } from "@/lib/plan-capabilities";
@@ -12,7 +13,6 @@ import { PARTNER_LEVEL_REWARDS_PLAN_ERROR } from "@/lib/rewards/constants";
 import { DubDiscountAttributes } from "@/lib/stripe/coupon-discount-converter";
 import { createDiscountSchema } from "@/lib/zod/schemas/discount";
 import { DiscountProvider } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { authActionClient } from "../safe-action";
 import { throwIfNoPermission } from "../throw-if-no-permission";
 

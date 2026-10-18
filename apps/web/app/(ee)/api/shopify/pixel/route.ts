@@ -1,13 +1,13 @@
 import { COMMON_CORS_HEADERS } from "@/lib/api/cors";
 import { parseRequestBody } from "@/lib/api/utils";
+import { waitUntil } from "@/lib/backend/background";
+import { ipAddress } from "@/lib/backend/request";
 import {
   shopifyCheckoutCache,
   tryDispatchShopifyOrderJob,
 } from "@/lib/integrations/shopify/checkout-cache";
 import { getClickEvent } from "@/lib/tinybird";
 import { ratelimit } from "@/lib/upstash";
-import { LOCALHOST_IP } from "@dub/utils";
-import { ipAddress, waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 import * as z from "zod/v4";
 
@@ -45,7 +45,7 @@ export const POST = async (req: Request) => {
     }
 
     // Rate limit the request
-    const ip = process.env.VERCEL === "1" ? ipAddress(req) : LOCALHOST_IP;
+    const ip = ipAddress(req) || "";
     const { success } = await ratelimit().limit(`shopify-track-pixel:${ip}`);
 
     if (!success) {

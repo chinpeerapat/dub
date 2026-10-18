@@ -1,9 +1,9 @@
+import { PublishBatchRequest } from "@/lib/backend/queue";
 import { qstash } from "@/lib/cron";
 import { withCron } from "@/lib/cron/with-cron";
 import { prisma } from "@/lib/prisma";
 import { APP_DOMAIN_WITH_NGROK, chunk } from "@dub/utils";
 import { CommissionStatus } from "@prisma/client";
-import { PublishBatchRequest } from "@upstash/qstash";
 import { logAndRespond } from "../../utils";
 
 export const maxDuration = 600;

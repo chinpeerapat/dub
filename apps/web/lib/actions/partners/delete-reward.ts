@@ -6,13 +6,13 @@ import { getRewardOrThrow } from "@/lib/api/partners/get-reward-or-throw";
 import { serializeReward } from "@/lib/api/partners/serialize-reward";
 import { getDefaultProgramIdOrThrow } from "@/lib/api/programs/get-default-program-id-or-throw";
 import { queueRewardProcessing } from "@/lib/api/rewards/queue-reward-processing";
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import {
   REWARD_EVENT_COLUMN_MAPPING,
   rewardActivityDescriptionSchema,
 } from "@/lib/zod/schemas/rewards";
 import { formatRewardDescription } from "@/ui/partners/format-reward-description";
-import { waitUntil } from "@vercel/functions";
 import * as z from "zod/v4";
 import { authActionClient } from "../safe-action";
 import { throwIfNoPermission } from "../throw-if-no-permission";

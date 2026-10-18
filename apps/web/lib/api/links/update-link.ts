@@ -1,5 +1,6 @@
 import { getOwnedLinkImageKey } from "@/lib/api/links/get-owned-link-image-key";
 import { queuePartnerSearchSyncForLinks } from "@/lib/api/partners/queue-partner-search-sync";
+import { waitUntil } from "@/lib/backend/background";
 import { getPartnerEnrollmentInfo } from "@/lib/planetscale/get-partner-enrollment-info";
 import { prisma } from "@/lib/prisma";
 import { isNotHostedImage, storage } from "@/lib/storage";
@@ -13,7 +14,6 @@ import {
   truncate,
 } from "@dub/utils";
 import { Prisma } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { createId } from "../create-id";
 import { combineTagIds } from "../tags/combine-tag-ids";
 import { scheduleABTestCompletion } from "./ab-test-scheduler";

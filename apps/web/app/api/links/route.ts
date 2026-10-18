@@ -4,6 +4,7 @@ import { throwIfLinksUsageExceeded } from "@/lib/api/links/usage-checks";
 import { validateLinksQueryFilters } from "@/lib/api/links/validate-links-query-filters";
 import { parseRequestBody } from "@/lib/api/utils";
 import { withWorkspace } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import {
   MEGA_WORKSPACE_LINKS_LIMIT,
   SORTABLE_LINKS_LIMIT,
@@ -17,7 +18,6 @@ import {
   linkEventSchema,
 } from "@/lib/zod/schemas/links";
 import { LOCALHOST_IP } from "@dub/utils";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 
 // GET /api/links – get all links for a workspace

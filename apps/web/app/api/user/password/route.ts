@@ -2,11 +2,11 @@ import { DubApiError } from "@/lib/api/errors";
 import { parseRequestBody } from "@/lib/api/utils";
 import { withSession } from "@/lib/auth";
 import { hashPassword, validatePassword } from "@/lib/auth/password";
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import { updatePasswordSchema } from "@/lib/zod/schemas/auth";
 import { sendEmail } from "@dub/email";
 import PasswordUpdated from "@dub/email/templates/password-updated";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 
 // PATCH /api/user/password - updates the user's password

@@ -5,6 +5,7 @@ import { getDefaultProgramIdOrThrow } from "@/lib/api/programs/get-default-progr
 import { parseRequestBody } from "@/lib/api/utils";
 import { extractUtmParams } from "@/lib/api/utm/extract-utm-params";
 import { withWorkspace } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import { qstash } from "@/lib/cron";
 import { prisma } from "@/lib/prisma";
 import {
@@ -13,7 +14,6 @@ import {
   PartnerGroupDefaultLinkSchema,
 } from "@/lib/zod/schemas/groups";
 import { APP_DOMAIN_WITH_NGROK, constructURLFromUTMParams } from "@dub/utils";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 import * as z from "zod/v4";
 

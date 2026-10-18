@@ -1,4 +1,4 @@
-import { ipAddress } from "@vercel/functions";
+import { ipAddress } from "@/lib/backend/request";
 import { userAgent } from "next/server";
 import { IP_BOTS, IP_RANGES_BOTS, REFERRER_BOTS, UA_BOTS } from "./bots-list";
 import { isIpInRange } from "./is-ip-in-range";

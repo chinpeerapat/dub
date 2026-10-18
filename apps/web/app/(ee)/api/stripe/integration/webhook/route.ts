@@ -1,8 +1,8 @@
 import { captureWebhookLog } from "@/lib/api-logs/capture-webhook-log";
 import { withAxiom } from "@/lib/axiom/server";
+import { waitUntil } from "@/lib/backend/background";
 import { isStripeRateLimitError, stripe } from "@/lib/stripe";
 import { StripeMode } from "@/lib/types";
-import { waitUntil } from "@vercel/functions";
 import { logAndRespond } from "app/(ee)/api/cron/utils";
 import Stripe from "stripe";
 import { accountApplicationDeauthorized } from "./account-application-deauthorized";

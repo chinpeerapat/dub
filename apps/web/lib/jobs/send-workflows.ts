@@ -1,21 +1,12 @@
 import { logger, toErrorFields } from "@/lib/axiom/server";
+import { PublishRequest } from "@/lib/backend/queue";
 import { APP_DOMAIN_WITH_NGROK, chunk, serializeError } from "@dub/utils";
-import { PublishRequest } from "@upstash/qstash";
-import { Client, TriggerOptions } from "@upstash/workflow";
 import * as z from "zod/v4";
+import { Client, TriggerOptions } from "../backend/workflow";
 import { LAST_ERROR_MAX_LENGTH, QSTASH_BATCH_CHUNK_SIZE } from "./constants";
 import type { PersistableJob, PublishResult } from "./types";
 
-const workflowClient = new Client({
-  baseUrl: process.env.QSTASH_URL || "https://qstash-us-east-1.upstash.io",
-  token: process.env.QSTASH_TOKEN || "",
-  ...(process.env.VERCEL_ENV === "preview" && {
-    headers: {
-      "x-vercel-protection-bypass":
-        process.env.VERCEL_AUTOMATION_BYPASS_SECRET || "",
-    },
-  }),
-});
+const workflowClient = new Client();
 
 export const workflowNameSchema = z
   .string()
@@ -78,7 +69,7 @@ function buildTriggerRequest(job: PersistableJob): TriggerOptions {
   };
 }
 
-/** Publish workflows to QStash Workflows (no DB writes). */
+/** Persist workflows for the PostgreSQL delivery worker. */
 export async function triggerWorkflows(
   jobs: PersistableJob[],
 ): Promise<PublishResult[]> {

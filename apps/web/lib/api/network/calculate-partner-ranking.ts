@@ -18,7 +18,7 @@ export interface PartnerRankingParams extends PartnerRankingFilters {
  * Scoring Breakdown (0-65+ points):
  *
  * 1. Trusted Partner Bonus (200 points): Top priority boost
- *    - Partners with networkStatus = "trusted" get 200 bonus points
+ *    - Partners with networkStatus = 'trusted' get 200 bonus points
  *    - This ensures trusted partners appear at the very top
  *
  * 2. Similarity Score (0-50 points): Performance in similar programs
@@ -75,7 +75,7 @@ export async function calculatePartnerRanking({
   similarPrograms = [],
 }: PartnerRankingParams) {
   const conditions: Prisma.Sql[] = [
-    Prisma.sql`p.networkStatus IN ("approved", "trusted")`,
+    Prisma.sql`p.networkStatus IN ("approved", 'trusted')`,
     Prisma.sql`COALESCE(pe.clickToConversionRate, 0) < 1`,
     Prisma.sql`(dp.ignoredAt IS NULL OR dp.id IS NULL)`,
     Prisma.sql`enrolled.id IS NULL`,
@@ -101,8 +101,8 @@ export async function calculatePartnerRanking({
 
     conditions.push(
       Prisma.sql`EXISTS (
-        SELECT 1 
-        FROM PartnerPlatform pp_filter 
+        SELECT 1
+        FROM PartnerPlatform pp_filter
         WHERE ${Prisma.join(platformConditions, " AND ")}
       )`,
     );
@@ -118,8 +118,8 @@ export async function calculatePartnerRanking({
 
   // Rank partners with no platforms lower
   const hasProfileCheck = Prisma.sql`EXISTS (
-    SELECT 1 
-    FROM PartnerPlatform pp 
+    SELECT 1
+    FROM PartnerPlatform pp
     WHERE pp.partnerId = p.id
   )`;
 
@@ -131,7 +131,7 @@ export async function calculatePartnerRanking({
   // This dramatically reduces the dataset from 1.5M to 5,000 before expensive joins
   const buildDiscoverablePartnersFilter = (alias: string) => {
     const conditions: Prisma.Sql[] = [
-      Prisma.sql`${Prisma.raw(alias)}.networkStatus IN ("approved", "trusted")`,
+      Prisma.sql`${Prisma.raw(alias)}.networkStatus IN ("approved", 'trusted')`,
     ];
 
     if (partnerIds && partnerIds.length > 0) {
@@ -149,11 +149,11 @@ export async function calculatePartnerRanking({
 
   // Metrics across ALL programs (for display purposes)
   const allProgramMetricsJoin = Prisma.sql`LEFT JOIN (
-    SELECT 
+    SELECT
       pe_all.partnerId,
       MAX(pe_all.lastConversionAt) as lastConversionAt,
       AVG(COALESCE(pe_all.clickToConversionRate, 0)) as avgConversionRate
-    FROM ProgramEnrollment pe_all FORCE INDEX (ProgramEnrollment_partnerId_programId_key)
+    FROM ProgramEnrollment pe_all
     -- OPTIMIZATION: Only process enrollments for discoverable partners (using subquery to avoid JOIN)
     WHERE pe_all.partnerId IN (
       SELECT p_filter_all.id
@@ -168,27 +168,27 @@ export async function calculatePartnerRanking({
   const similarProgramMetricsJoin =
     similarPrograms.length > 0
       ? Prisma.sql`LEFT JOIN (
-      SELECT 
+      SELECT
         pe2.partnerId,
         -- Similarity score: Sum weighted performance (0-50 points, no averaging)
         LEAST(50, SUM(
           (
             -- Individual program performance score (0-1 range per program)
             (COALESCE(pe2.consistencyScore, 50) / 100 * 0.20) +
-            (CASE 
+            (CASE
               WHEN COALESCE(pe2.clickToConversionRate, 0) <= 0 THEN 0
               WHEN COALESCE(pe2.clickToConversionRate, 0) >= 0.1 THEN 0.10
-              ELSE (SQRT(LOG10(COALESCE(pe2.clickToConversionRate, 0) * 1000 + 1)) * 40 / 100) * 0.10
+              ELSE (SQRT(LOG(COALESCE(pe2.clickToConversionRate, 0) * 1000 + 1)) * 40 / 100) * 0.10
             END) +
-            (CASE 
+            (CASE
               WHEN COALESCE(pe2.averageLifetimeValue, 0) <= 0 THEN 0
               WHEN COALESCE(pe2.averageLifetimeValue, 0) >= 10000 THEN 0.15
-              ELSE (LOG10(COALESCE(pe2.averageLifetimeValue, 0) + 1) * 25 / 100) * 0.15
+              ELSE (LOG(COALESCE(pe2.averageLifetimeValue, 0) + 1) * 25 / 100) * 0.15
             END) +
-            (CASE 
+            (CASE
               WHEN COALESCE(pe2.totalCommissions, 0) <= 0 THEN 0
               WHEN COALESCE(pe2.totalCommissions, 0) >= 100000 THEN 0.05
-              ELSE (LOG10(COALESCE(pe2.totalCommissions, 0) + 1) * 22 / 100) * 0.05
+              ELSE (LOG(COALESCE(pe2.totalCommissions, 0) + 1) * 22 / 100) * 0.05
             END)
           ) * (CASE pe2.programId
             ${Prisma.join(
@@ -202,7 +202,7 @@ export async function calculatePartnerRanking({
         )) as similarityScore,
         -- Program match score: Count of similar programs (0-15 points)
         LEAST(15, COUNT(DISTINCT pe2.programId) * 2) as programMatchScore
-      FROM ProgramEnrollment pe2 FORCE INDEX (ProgramEnrollment_partnerId_programId_key)
+      FROM ProgramEnrollment pe2
       -- OPTIMIZATION: Only process enrollments for discoverable partners (using subquery to avoid JOIN)
       WHERE pe2.partnerId IN (
         SELECT p_filter.id
@@ -214,15 +214,15 @@ export async function calculatePartnerRanking({
       GROUP BY pe2.partnerId
     ) similarProgramMetrics ON similarProgramMetrics.partnerId = p.id`
       : Prisma.sql`LEFT JOIN (
-          SELECT 
-            NULL as partnerId, 
-            NULL as similarityScore, 
+          SELECT
+            NULL as partnerId,
+            NULL as similarityScore,
             NULL as programMatchScore
             WHERE FALSE
         ) similarProgramMetrics ON similarProgramMetrics.partnerId = p.id`;
 
   const partners = await prisma.$queryRaw<Array<any>>`
-    SELECT 
+    SELECT
       p.*,
       COALESCE(pe.lastConversionAt, allProgramMetrics.lastConversionAt) as lastConversionAt,
       COALESCE(pe.clickToConversionRate, allProgramMetrics.avgConversionRate) as conversionRate,
@@ -234,18 +234,18 @@ export async function calculatePartnerRanking({
       preferredEarningStructuresData.preferredEarningStructures as preferredEarningStructures,
       salesChannelsData.salesChannels as salesChannels,
       partnerPlatformsData.platforms as platforms,
-      
+
       -- Pre-compute hasProfileCheck for faster sorting
       ${hasProfileCheck} as hasProfile,
 
       -- FINAL SCORE (0-765+ points): Similarity-based ranking for discovery
-      -- Trusted partners (networkStatus = "trusted") get 200 bonus points to rank at the top
+      -- Trusted partners (networkStatus = 'trusted') get 200 bonus points to rank at the top
       -- Partners with profiles get 500 bonus points to ensure they rank above those without profiles
       (
         -- Profile bonus: 500 points for partners with platforms (ensures they rank above those without)
         CASE WHEN ${hasProfileCheck} THEN 500 ELSE 0 END +
-        -- Trusted partner bonus: 200 points for partners with networkStatus = "trusted"
-        CASE WHEN p.networkStatus = "trusted" THEN 200 ELSE 0 END +
+        -- Trusted partner bonus: 200 points for partners with networkStatus = 'trusted'
+        CASE WHEN p.networkStatus = 'trusted' THEN 200 ELSE 0 END +
         COALESCE(similarProgramMetrics.similarityScore, 0) +
         COALESCE(similarProgramMetrics.programMatchScore, 0)
       ) as finalScore
@@ -256,13 +256,13 @@ export async function calculatePartnerRanking({
       FROM Partner p_sub
       WHERE ${buildDiscoverablePartnersFilter("p_sub")}
     ) p
-   
+
     -- Current program enrollment (for display metrics and filtering)
     LEFT JOIN ProgramEnrollment pe ON pe.partnerId = p.id AND pe.programId = ${programId}
-   
+
     -- Enrollment status for the current program
     LEFT JOIN ProgramEnrollment enrolled ON enrolled.partnerId = p.id AND enrolled.programId = ${programId}
-   
+
     -- Discovered partner metadata
     LEFT JOIN DiscoveredPartner dp ON dp.partnerId = p.id AND dp.programId = ${programId}
 
@@ -272,10 +272,10 @@ export async function calculatePartnerRanking({
 
     -- OPTIMIZATION: Only get categories for discoverable partners
     LEFT JOIN (
-      SELECT 
+      SELECT
         pe5.partnerId,
-        GROUP_CONCAT(DISTINCT pc.category ORDER BY pc.category SEPARATOR ',') as categories
-      FROM ProgramEnrollment pe5 FORCE INDEX (ProgramEnrollment_partnerId_programId_key)
+        string_agg(DISTINCT pc.category::text, ',' ORDER BY pc.category::text) as categories
+      FROM ProgramEnrollment pe5
       JOIN ProgramCategory pc ON pc.programId = pe5.programId
       WHERE pe5.partnerId IN (
         SELECT p_cat.id
@@ -288,9 +288,9 @@ export async function calculatePartnerRanking({
 
     -- OPTIMIZATION: Only get preferred earning structures for discoverable partners
     LEFT JOIN (
-      SELECT 
+      SELECT
         ppes.partnerId,
-        GROUP_CONCAT(DISTINCT ppes.preferredEarningStructure ORDER BY ppes.preferredEarningStructure SEPARATOR ',') as preferredEarningStructures
+        string_agg(DISTINCT ppes.preferredEarningStructure::text, ',' ORDER BY ppes.preferredEarningStructure::text) as preferredEarningStructures
       FROM PartnerPreferredEarningStructure ppes
       WHERE ppes.partnerId IN (
         SELECT p_filter.id
@@ -302,9 +302,9 @@ export async function calculatePartnerRanking({
 
     -- OPTIMIZATION: Only get sales channels for discoverable partners
     LEFT JOIN (
-      SELECT 
+      SELECT
         psc.partnerId,
-        GROUP_CONCAT(DISTINCT psc.salesChannel ORDER BY psc.salesChannel SEPARATOR ',') as salesChannels
+        string_agg(DISTINCT psc.salesChannel::text, ',' ORDER BY psc.salesChannel::text) as salesChannels
       FROM PartnerSalesChannel psc
       WHERE psc.partnerId IN (
         SELECT p_filter.id
@@ -316,10 +316,10 @@ export async function calculatePartnerRanking({
 
     -- OPTIMIZATION: Only get platforms for discoverable partners
     LEFT JOIN (
-      SELECT 
+      SELECT
         pp.partnerId,
-        JSON_ARRAYAGG(
-          JSON_OBJECT(
+        jsonb_agg(
+          jsonb_build_object(
             'partnerId', pp.partnerId,
             'type', pp.type,
             'identifier', pp.identifier,

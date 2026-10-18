@@ -7,6 +7,7 @@ import { getDefaultProgramIdOrThrow } from "@/lib/api/programs/get-default-progr
 import { parseRequestBody } from "@/lib/api/utils";
 import { extractUtmParams } from "@/lib/api/utm/extract-utm-params";
 import { withWorkspace } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import { syncGroupUtmJob } from "@/lib/jobs/handlers/sync-group-utm-job";
 import { prisma } from "@/lib/prisma";
 import { GroupWithProgramSchema } from "@/lib/zod/schemas/group-with-program";
@@ -17,7 +18,6 @@ import {
   updateGroupSchema,
 } from "@/lib/zod/schemas/groups";
 import { constructURLFromUTMParams } from "@dub/utils";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 
 // GET /api/groups/[groupIdOrSlug] - get information about a group

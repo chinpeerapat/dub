@@ -1,6 +1,7 @@
 "use server";
 
 import { createId } from "@/lib/api/create-id";
+import { waitUntil } from "@/lib/backend/background";
 import { triggerDraftBountySubmissionCreation } from "@/lib/bounty/api/trigger-draft-bounty-submissions";
 import { prisma } from "@/lib/prisma";
 import { polyfillSocialMediaFields } from "@/lib/social-utils";
@@ -10,7 +11,6 @@ import { sendWorkspaceWebhook } from "@/lib/webhook/publish";
 import { EnrolledPartnerSchema } from "@/lib/zod/schemas/partners";
 import { nanoid } from "@dub/utils";
 import { ProgramEnrollmentStatus } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { DubApiError } from "../errors";
 import { detectAndRecordNetworkLevelBans } from "../fraud/detect-network-level-bans";
 import { getGroupOrThrow } from "../groups/get-group-or-throw";

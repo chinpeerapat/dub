@@ -1,9 +1,9 @@
 import { DubApiError } from "@/lib/api/errors";
 import { withWorkspace } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import { linkTagDeletedJob } from "@/lib/jobs/handlers/link-tag-deleted-job";
 import { prisma } from "@/lib/prisma";
 import { LinkTagSchema, updateTagBodySchema } from "@/lib/zod/schemas/tags";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 
 // PATCH /api/tags/[id] – update a tag for a workspace

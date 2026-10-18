@@ -5,13 +5,13 @@ import { linkCache } from "@/lib/api/links/cache";
 import { recordClickCache } from "@/lib/api/links/record-click-cache";
 import { parseRequestBody } from "@/lib/api/utils";
 import { withAxiom } from "@/lib/axiom/server";
+import { waitUntil } from "@/lib/backend/background";
 import { getIdentityHash } from "@/lib/middleware/utils/get-identity-hash";
 import { getLinkViaEdge, getWorkspaceViaEdge } from "@/lib/planetscale";
 import { recordClick } from "@/lib/tinybird";
 import { RedisLinkProps } from "@/lib/types";
 import { formatRedisLink, redisGlobalWithTimeout } from "@/lib/upstash";
 import { isValidUrl, nanoid } from "@dub/utils";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 
 // POST /api/track/visit – Track a visit event from the client-side

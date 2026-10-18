@@ -16,5 +16,6 @@ export async function recordMetatags(url: string, error: boolean) {
   }
 
   const domain = getDomainWithoutWWW(url);
+  if (!domain) return null;
   return await redis.zincrby("metatags-zset", 1, domain);
 }

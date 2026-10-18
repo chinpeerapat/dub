@@ -79,7 +79,7 @@ export const getPartnerEnrollmentInfo = async ({
         SELECT
           programId,
           partnerId,
-          JSON_ARRAYAGG(partnerTagId) AS partnerTagIds
+          jsonb_agg(partnerTagId) AS partnerTagIds
         FROM (
           SELECT DISTINCT
             programId,

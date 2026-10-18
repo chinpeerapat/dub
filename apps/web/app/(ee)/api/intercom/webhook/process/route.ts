@@ -36,7 +36,7 @@ export const POST = withAxiom(async (req) => {
       where: {
         integrationId: INTERCOM_INTEGRATION_ID,
         credentials: {
-          path: "$.appId",
+          path: ["appId"],
           equals: intercomWorkspaceId,
         },
       },

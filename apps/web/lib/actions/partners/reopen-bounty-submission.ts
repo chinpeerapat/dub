@@ -2,10 +2,10 @@
 
 import { recordAuditLog } from "@/lib/api/audit-logs/record-audit-log";
 import { getDefaultProgramIdOrThrow } from "@/lib/api/programs/get-default-program-id-or-throw";
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import { BountySubmissionSchema } from "@/lib/zod/schemas/bounties";
 import { BountySubmissionStatus } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import * as z from "zod/v4";
 import { authActionClient } from "../safe-action";
 import { throwIfNoPermission } from "../throw-if-no-permission";

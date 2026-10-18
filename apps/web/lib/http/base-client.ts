@@ -1,5 +1,5 @@
 import { logger } from "@/lib/axiom/server";
-import { waitUntil } from "@vercel/functions";
+import { waitUntil } from "@/lib/backend/background";
 import * as z from "zod/v4";
 
 const DEFAULT_TIMEOUT_MS = 30_000;

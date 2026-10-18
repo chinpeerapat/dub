@@ -2,10 +2,10 @@ import { queuePartnerSearchSync } from "@/lib/api/partners/queue-partner-search-
 import { getLinkedInPost } from "@/lib/api/scrape-creators/get-linkedin-post";
 import { getSocialProfile } from "@/lib/api/scrape-creators/get-social-profile";
 import { withAdmin } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import { sanitizeSocialHandle, sanitizeWebsite } from "@/lib/social-utils";
 import { PlatformType } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 import * as z from "zod/v4";
 

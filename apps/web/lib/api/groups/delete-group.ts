@@ -1,9 +1,9 @@
+import { waitUntil } from "@/lib/backend/background";
 import { invalidateLinksForDiscountsJob } from "@/lib/jobs/handlers/invalidate-links-for-discounts-job";
 import { dispatchWorkflows } from "@/lib/jobs/publish-workflows";
 import { prisma } from "@/lib/prisma";
 import { DEFAULT_PARTNER_GROUP } from "@/lib/zod/schemas/groups";
 import { PartnerGroup } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { DubApiError } from "../errors";
 import { removeGroupIdFromMoveRules } from "./remove-group-id-from-move-rules";
 

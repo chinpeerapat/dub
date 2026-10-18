@@ -6,12 +6,12 @@ import {
   assertCanConfirmEmailChange,
   EmailChangeRequestData,
 } from "@/lib/auth/confirm-email-change";
+import { waitUntil } from "@/lib/backend/background";
 import { syncPlainCustomerEmail } from "@/lib/plain/upsert-plain-customer";
 import { prisma } from "@/lib/prisma";
 import { redis } from "@/lib/upstash";
 import { sendEmail } from "@dub/email";
 import EmailUpdated from "@dub/email/templates/email-updated";
-import { waitUntil } from "@vercel/functions";
 import { flattenValidationErrors } from "next-safe-action";
 import * as z from "zod/v4";
 import { authUserActionClient } from "./safe-action";

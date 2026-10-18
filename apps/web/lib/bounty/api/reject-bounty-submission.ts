@@ -1,6 +1,7 @@
 import { recordAuditLog } from "@/lib/api/audit-logs/record-audit-log";
 import { DubApiError } from "@/lib/api/errors";
 import { Session } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import { REJECT_BOUNTY_SUBMISSION_REASONS } from "@/lib/bounty/constants";
 import { prisma } from "@/lib/prisma";
 import {
@@ -10,7 +11,6 @@ import {
 import { sendEmail } from "@dub/email";
 import BountyRejected from "@dub/email/templates/bounty-rejected";
 import { BountySubmissionStatus, BountyType } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import * as z from "zod/v4";
 
 interface RejectBountySubmissionParams

@@ -92,30 +92,15 @@ const publishWebhookEventToQStash = async ({
   // TODO:
   // Add deduplicationId to the webhook
 
-  // here, we use qstashWithoutBypass to avoid passing the
-  // Vercel automation bypass secret to arbitrary third party webhook receivers
+  // The worker forwards only the webhook's own credentials to its receiver.
   const response = await qstashWithoutBypass.publishJSON({
     url: webhook.url,
     body: finalPayload,
     headers: {
       "Dub-Signature": signature,
-      "Upstash-Hide-Headers": "true",
-
-      // for Vercel preview (e2e tests), we need to pass the
-      // Vercel automation bypass secret to the callback URL
-      // see: https://upstash.com/docs/qstash/features/callbacks#configuring-callbacks
-      ...(process.env.VERCEL_ENV === "preview" && {
-        "Upstash-Callback-Forward-x-vercel-protection-bypass":
-          process.env.VERCEL_AUTOMATION_BYPASS_SECRET || "",
-        "Upstash-Failure-Callback-Forward-x-vercel-protection-bypass":
-          process.env.VERCEL_AUTOMATION_BYPASS_SECRET || "",
-      }),
-
       // Integration specific headers
       ...(receiver === "segment" && {
-        "Upstash-Forward-Authorization": createSegmentBasicAuthHeader(
-          webhook.secret,
-        ),
+        Authorization: createSegmentBasicAuthHeader(webhook.secret),
       }),
     },
     callback: callbackUrl.href,

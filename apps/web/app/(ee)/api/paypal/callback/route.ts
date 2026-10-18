@@ -1,4 +1,5 @@
 import { getSession } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import { recomputePartnerPayoutState } from "@/lib/payouts/recompute-partner-payout-state";
 import { paypalOAuthProvider } from "@/lib/paypal/oauth";
 import { prisma } from "@/lib/prisma";
@@ -6,7 +7,6 @@ import { sendEmail } from "@dub/email";
 import ConnectedPaypalAccount from "@dub/email/templates/connected-paypal-account";
 import { PARTNERS_DOMAIN } from "@dub/utils";
 import { Prisma } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { redirect } from "next/navigation";
 
 // GET /api/paypal/callback - callback from PayPal

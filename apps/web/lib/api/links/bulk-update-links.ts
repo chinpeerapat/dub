@@ -1,10 +1,10 @@
 import { queuePartnerSearchSyncForLinks } from "@/lib/api/partners/queue-partner-search-sync";
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import { isNotHostedImage, storage } from "@/lib/storage";
 import { bulkUpdateLinksBodySchema } from "@/lib/zod/schemas/links";
 import { R2_URL, getParamsFromURL, nanoid, truncate } from "@dub/utils";
 import { Prisma } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import * as z from "zod/v4";
 import { combineTagIds } from "../tags/combine-tag-ids";
 import { includeProgramEnrollment } from "./include-program-enrollment";

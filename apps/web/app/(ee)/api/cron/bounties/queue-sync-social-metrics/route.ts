@@ -14,7 +14,7 @@ export const GET = withCron(async () => {
     where: {
       type: "submission",
       submissionRequirements: {
-        path: "$.socialMetrics",
+        path: ["socialMetrics"],
         not: Prisma.JsonNull,
       },
       ...buildBountyActivePeriodWhere(),

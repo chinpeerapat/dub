@@ -1,9 +1,19 @@
 import { isPrivateIp } from "@/lib/api/is-private-ip";
 import { assertSafeStorageKey } from "@/lib/storage/assert-safe-storage-key";
-import { OG_AVATAR_URL, R2_URL, fetchWithTimeout } from "@dub/utils";
-import { AwsClient } from "aws4fetch";
+import {
+  APP_DOMAIN,
+  OG_AVATAR_URL,
+  R2_URL,
+  fetchWithTimeout,
+} from "@dub/utils";
 import { promises as dns } from "dns";
 import { isIP } from "net";
+import {
+  SupabaseObjectClient,
+  objectPath,
+  signUpload,
+  storageRequest,
+} from "./backend/storage";
 
 interface imageOptions {
   contentType?: string;
@@ -15,16 +25,7 @@ interface imageOptions {
 type BucketType = "public" | "private";
 
 class StorageClient {
-  private client: AwsClient;
-
-  constructor() {
-    this.client = new AwsClient({
-      accessKeyId: process.env.STORAGE_ACCESS_KEY_ID || "",
-      secretAccessKey: process.env.STORAGE_SECRET_ACCESS_KEY || "",
-      service: "s3",
-      region: "auto",
-    });
-  }
+  private client = new SupabaseObjectClient();
 
   async upload({
     key,
@@ -182,25 +183,30 @@ class StorageClient {
     expiresIn: number;
     headers?: Record<string, string>;
   }) {
-    const url = new URL(this.objectRequestUrl(key, bucket));
-
-    url.searchParams.set("X-Amz-Expires", String(expiresIn));
-
-    try {
-      const response = await this.client.sign(url, {
-        method,
-        headers,
-        aws: {
-          signQuery: true,
-          allHeaders: true,
-        },
+    assertSafeStorageKey(key);
+    if (method === "PUT") {
+      const token = signUpload({
+        key,
+        bucket,
+        expires: Date.now() + expiresIn * 1000,
+        contentType: headers?.["Content-Type"],
+        contentLength: headers?.["Content-Length"]
+          ? Number(headers["Content-Length"])
+          : undefined,
       });
-
-      return response.url;
-    } catch (error) {
-      console.error("storage.getSignedUrl failed", error);
-      throw new Error("Failed to generate signed url. Please try again later.");
+      return `${APP_DOMAIN}/api/storage/upload?token=${encodeURIComponent(token)}`;
     }
+    const response = await storageRequest(
+      `/object/sign/${objectPath(this._getBucketName(bucket), key)}`,
+      {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ expiresIn }),
+      },
+    );
+    if (!response.ok) throw new Error("Could not sign storage download");
+    const data = await response.json();
+    return `${process.env.SUPABASE_PUBLIC_URL}/storage/v1${data.signedURL}`;
   }
 
   async getSignedUploadUrl(opts: {
@@ -364,7 +370,7 @@ class StorageClient {
   private objectRequestUrl(key: string, bucket: BucketType) {
     assertSafeStorageKey(key);
 
-    return `${process.env.STORAGE_ENDPOINT}/${this._getBucketName(bucket)}/${key}`;
+    return `https://storage.internal/${objectPath(this._getBucketName(bucket), key)}`;
   }
 
   private _getBucketName(bucket: BucketType) {

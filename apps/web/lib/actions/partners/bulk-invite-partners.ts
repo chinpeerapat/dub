@@ -8,6 +8,7 @@ import { getGroupRewardsAndBounties } from "@/lib/api/partners/get-group-rewards
 import { queuePartnerSearchSync } from "@/lib/api/partners/queue-partner-search-sync";
 import { getDefaultProgramIdOrThrow } from "@/lib/api/programs/get-default-program-id-or-throw";
 import { applyGroupUtmToLink } from "@/lib/api/utm/apply-group-utm-to-link";
+import { waitUntil } from "@/lib/backend/background";
 import { throwIfPartnersLimitExceeded } from "@/lib/partners/throw-if-partners-limit-exceeded";
 import { prisma } from "@/lib/prisma";
 import { DEFAULT_PARTNER_GROUP } from "@/lib/zod/schemas/groups";
@@ -17,7 +18,6 @@ import ProgramInvite from "@dub/email/templates/program-invite";
 import { nanoid } from "@dub/utils";
 import { prettyPrint } from "@dub/utils/src";
 import slugify from "@sindresorhus/slugify";
-import { waitUntil } from "@vercel/functions";
 import { getProgramOrThrow } from "../../api/programs/get-program-or-throw";
 import { authActionClient } from "../safe-action";
 import { throwIfNoPermission } from "../throw-if-no-permission";

@@ -60,9 +60,24 @@ function buildSearchWhere(query: string): Prisma.ProgramApplicationWhereInput {
             {
               partner: {
                 OR: [
-                  { email: { search: fullTextQuery } },
-                  { name: { search: fullTextQuery } },
-                  { companyName: { search: fullTextQuery } },
+                  {
+                    email: {
+                      contains: fullTextQuery,
+                      mode: "insensitive" as const,
+                    },
+                  },
+                  {
+                    name: {
+                      contains: fullTextQuery,
+                      mode: "insensitive" as const,
+                    },
+                  },
+                  {
+                    companyName: {
+                      contains: fullTextQuery,
+                      mode: "insensitive" as const,
+                    },
+                  },
                 ],
               },
             },

@@ -1,5 +1,6 @@
 import { formatUTCDateTimeClickhouse } from "@/lib/analytics/utils/format-utc-datetime-clickhouse";
 import { getStartEndDates } from "@/lib/analytics/utils/get-start-end-dates";
+import { queryEvents } from "@/lib/backend/analytics";
 import { prismaEdge } from "@/lib/prisma/edge";
 import {
   GOOGLE_FAVICON_URL,
@@ -88,29 +89,24 @@ export async function GET(req: NextRequest) {
     interval: "30d",
   });
 
-  const timeseriesData = await fetch(
-    `https://api.us-east.tinybird.co/v0/pipes/v3_timeseries.json?${new URLSearchParams(
-      {
-        event: "clicks",
-        ...(workspaceId ? { workspaceId } : {}),
-        ...(folderId ? { folderId } : {}),
-        ...(linkId ? { linkId } : {}),
-        start: formatUTCDateTimeClickhouse(startDate),
-        end: formatUTCDateTimeClickhouse(endDate),
-        granularity,
-      },
-    )}`,
+  const timeseriesData: { start: string; clicks: number }[] = await queryEvents(
+    "v4_timeseries",
     {
-      headers: {
-        Authorization: `Bearer ${process.env.TINYBIRD_API_KEY}`,
-      },
-      next: {
-        revalidate: 60, // revalidate every minute
-      },
+      eventType: "clicks",
+      workspaceId,
+      folderId,
+      linkId,
+      start: formatUTCDateTimeClickhouse(startDate),
+      end: formatUTCDateTimeClickhouse(endDate),
+      granularity,
     },
   )
-    .then((res) => res.json())
-    .then((res) => res.data)
+    .then((rows) =>
+      rows.map((row) => ({
+        start: String(row.groupByField),
+        clicks: Number(row.clicks ?? 0),
+      })),
+    )
     .catch(() => []);
 
   const totalClicks = timeseriesData.reduce(

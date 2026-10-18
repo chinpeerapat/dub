@@ -5,9 +5,9 @@ import { getGroupOrThrow } from "@/lib/api/groups/get-group-or-throw";
 import { linkCache } from "@/lib/api/links/cache";
 import { queuePartnerSearchSync } from "@/lib/api/partners/queue-partner-search-sync";
 import { getDefaultProgramIdOrThrow } from "@/lib/api/programs/get-default-program-id-or-throw";
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import { deactivatePartnerSchema } from "@/lib/zod/schemas/partners";
-import { waitUntil } from "@vercel/functions";
 import { authActionClient } from "../safe-action";
 import { throwIfNoPermission } from "../throw-if-no-permission";
 

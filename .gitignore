@@ -53,3 +53,11 @@ playwright-report/
 test-results/
 blob-report/
 .pnpm-store
+
+# Self-hosted deployment state and secrets
+.env.selfhost
+deploy/supabase/volumes/db/data/
+deploy/supabase/volumes/storage/
+**/.deployment/
+
+**/.next-smoke/

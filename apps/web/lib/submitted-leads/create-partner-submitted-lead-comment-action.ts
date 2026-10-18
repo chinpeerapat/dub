@@ -1,13 +1,13 @@
 "use server";
 
 import { DubApiError } from "@/lib/api/errors";
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import { enqueueSubmittedLeadCommentNotification } from "@/lib/submitted-leads/submitted-lead-comment-notifications";
 import {
   SubmittedLeadCommentSchema,
   createPartnerSubmittedLeadCommentSchema,
 } from "@/lib/zod/schemas/submitted-leads";
-import { waitUntil } from "@vercel/functions";
 import { authPartnerActionClient } from "../actions/safe-action";
 import { ACTIVE_ENROLLMENT_STATUSES } from "../zod/schemas/partners";
 

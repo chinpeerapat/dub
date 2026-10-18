@@ -3,6 +3,7 @@ import { getGroupRewardsAndBounties } from "@/lib/api/partners/get-group-rewards
 import { getProgramEnrollmentOrThrow } from "@/lib/api/programs/get-program-enrollment-or-throw";
 import { executeWorkflows } from "@/lib/api/workflows/execute-workflows";
 import { logger } from "@/lib/axiom/server";
+import { serve } from "@/lib/backend/workflow";
 import { triggerDraftBountySubmissionCreation } from "@/lib/bounty/api/trigger-draft-bounty-submissions";
 import { generateDiscountCodeForPartner } from "@/lib/discounts/generate-discount-code-for-partner";
 import { createReferralCommission } from "@/lib/partner-referrals/create-referral-commission";
@@ -15,7 +16,6 @@ import { ProgramPartnerLinkSchema } from "@/lib/zod/schemas/programs";
 import { sendBatchEmail } from "@dub/email";
 import ProgramApplicationApproved from "@dub/email/templates/program-application-approved";
 import { NETWORK_PROGRAM_ID } from "@dub/utils";
-import { serve } from "@upstash/workflow/nextjs";
 import * as z from "zod/v4";
 
 const inputSchema = z.object({

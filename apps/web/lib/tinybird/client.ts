@@ -1,6 +1,2 @@
-import { Tinybird } from "@chronark/zod-bird";
-
-export const tb = new Tinybird({
-  token: process.env.TINYBIRD_API_KEY as string,
-  baseUrl: process.env.TINYBIRD_API_URL as string,
-});
+import { PostgresAnalytics } from "../backend/analytics";
+export const tb = new PostgresAnalytics();

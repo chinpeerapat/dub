@@ -2,6 +2,8 @@ import { createId } from "@/lib/api/create-id";
 import { DubApiError, handleAndReturnErrorResponse } from "@/lib/api/errors";
 import { parseRequestBody } from "@/lib/api/utils";
 import { withWorkspace } from "@/lib/auth";
+import { ingestEvents } from "@/lib/backend/analytics";
+import { waitUntil } from "@/lib/backend/background";
 import { generateRandomName } from "@/lib/names";
 import { prisma } from "@/lib/prisma";
 import {
@@ -14,7 +16,6 @@ import { clickEventSchemaTB } from "@/lib/zod/schemas/clicks";
 import { parseDateSchema } from "@/lib/zod/schemas/utils";
 import { linkConstructorSimple, nanoid } from "@dub/utils";
 import { Prisma } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 import * as z from "zod/v4";
 
@@ -294,16 +295,9 @@ export const POST = withWorkspace(
 
       await Promise.all([
         // Record clicks
-        fetch(
-          `${process.env.TINYBIRD_API_URL}/v0/events?name=dub_click_events&wait=true`,
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${process.env.TINYBIRD_API_KEY}`,
-              "Content-Type": "application/x-ndjson",
-            },
-            body: dataArray.map((d) => JSON.stringify(d.clickData)).join("\n"),
-          },
+        ingestEvents(
+          "dub_click_events",
+          dataArray.map((d) => d.clickData),
         ),
 
         // Record leads

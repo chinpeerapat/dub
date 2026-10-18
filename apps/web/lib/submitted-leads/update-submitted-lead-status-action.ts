@@ -3,6 +3,7 @@
 import { trackActivityLog } from "@/lib/api/activity-log/track-activity-log";
 import { DubApiError } from "@/lib/api/errors";
 import { getDefaultProgramIdOrThrow } from "@/lib/api/programs/get-default-program-id-or-throw";
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import {
   SUBMITTED_LEAD_STATUS_TO_ACTIVITY_ACTION,
@@ -15,7 +16,6 @@ import { notifySubmittedLeadStatusUpdate } from "@/lib/submitted-leads/notify-su
 import { SubmittedLeadWithCustomer } from "@/lib/types";
 import { updateSubmittedLeadStatusSchema } from "@/lib/zod/schemas/submitted-leads";
 import { SubmittedLeadStatus } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { authActionClient } from "../actions/safe-action";
 import { throwIfNoPermission } from "../actions/throw-if-no-permission";
 

@@ -1,4 +1,5 @@
 import { trackCommissionStatusUpdatesByProgram } from "@/lib/api/commissions/track-commission-update-activity-log";
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import { sendEmail } from "@dub/email";
 import PartnerPayoutForceWithdrawal from "@dub/email/templates/partner-payout-force-withdrawal";
@@ -16,7 +17,6 @@ import {
   Prisma,
   WorkspaceEnvironment,
 } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { PARTNER_IDS_TO_LOG_PAYOUTS_FOR } from "../constants/misc";
 import {
   BELOW_MIN_WITHDRAWAL_FEE_CENTS,

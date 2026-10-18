@@ -1,9 +1,9 @@
 import { captureWebhookLog } from "@/lib/api-logs/capture-webhook-log";
 import { isLocalDev } from "@/lib/api/environment";
 import { withAxiom } from "@/lib/axiom/server";
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import { timingSafeCompare } from "@/lib/webhook/timing-safe-compare";
-import { waitUntil } from "@vercel/functions";
 import { logAndRespond } from "app/(ee)/api/cron/utils";
 import crypto from "crypto";
 import { appUninstalled } from "./app-uninstalled";

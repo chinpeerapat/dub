@@ -1,10 +1,10 @@
 import { withAdmin } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import { partnerProfileChangeHistoryLogSchema } from "@/lib/zod/schemas/partner-profile";
 import { sendEmail } from "@dub/email";
 import NetworkPartnerApplicationApproved from "@dub/email/templates/network-partner-application-approved";
 import NetworkPartnerApplicationRejected from "@dub/email/templates/network-partner-application-rejected";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 import * as z from "zod/v4";
 

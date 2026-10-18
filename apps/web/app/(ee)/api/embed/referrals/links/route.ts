@@ -3,6 +3,7 @@ import { createLink, processLink } from "@/lib/api/links";
 import { validatePartnerLinkUrl } from "@/lib/api/links/validate-partner-link-url";
 import { parseRequestBody } from "@/lib/api/utils";
 import { applyGroupUtmToLink } from "@/lib/api/utm/apply-group-utm-to-link";
+import { waitUntil } from "@/lib/backend/background";
 import { withReferralsEmbedToken } from "@/lib/embed/referrals/auth";
 import { prisma } from "@/lib/prisma";
 import { sendWorkspaceWebhook } from "@/lib/webhook/publish";
@@ -12,7 +13,6 @@ import {
   createPartnerLinkSchema,
 } from "@/lib/zod/schemas/partners";
 import { ReferralsEmbedLinkSchema } from "@/lib/zod/schemas/referrals-embed";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 
 // GET /api/embed/referrals/links – get links for a partner

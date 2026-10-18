@@ -4,6 +4,7 @@ import { recordAuditLog } from "@/lib/api/audit-logs/record-audit-log";
 import { getGroupOrThrow } from "@/lib/api/groups/get-group-or-throw";
 import { getDefaultProgramIdOrThrow } from "@/lib/api/programs/get-default-program-id-or-throw";
 import { revalidateProgramPublicPages } from "@/lib/api/programs/revalidate-program-public-pages";
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import { isStored, storage } from "@/lib/storage";
 import { ProgramLanderData } from "@/lib/types";
@@ -14,7 +15,6 @@ import {
   programLanderSchema,
 } from "@/lib/zod/schemas/program-lander";
 import { isFulfilled, isRejected, nanoid, R2_URL } from "@dub/utils";
-import { waitUntil } from "@vercel/functions";
 import * as z from "zod/v4";
 import { authActionClient } from "../safe-action";
 import { throwIfNoPermission } from "../throw-if-no-permission";

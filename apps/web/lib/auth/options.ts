@@ -1,3 +1,4 @@
+import { waitUntil } from "@/lib/backend/background";
 import { isBlacklistedEmail } from "@/lib/edge-config";
 import { jackson } from "@/lib/jackson";
 import { welcomeUserJob } from "@/lib/jobs/handlers/welcome-user-job";
@@ -11,7 +12,6 @@ import LoginLink from "@dub/email/templates/login-link";
 import { APP_DOMAIN, PARTNERS_DOMAIN } from "@dub/utils";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { User, type NextAuthOptions } from "next-auth";
 import { AdapterAccount, AdapterUser } from "next-auth/adapters";
 import { JWT } from "next-auth/jwt";
@@ -36,7 +36,9 @@ import { validatePassword } from "./password";
 import { SSO_LOGIN_PROGRAMS } from "./sso-login-programs";
 import { trackDubLead } from "./track-dub-lead";
 
-const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL;
+const SECURE_COOKIES =
+  new URL(process.env.NEXTAUTH_URL || "http://localhost:8888").protocol ===
+  "https:";
 
 const CustomPrismaAdapter = (p: PrismaClient) => {
   return {
@@ -379,14 +381,14 @@ export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
   cookies: {
     sessionToken: {
-      name: `${VERCEL_DEPLOYMENT ? "__Secure-" : ""}next-auth.session-token`,
+      name: `${SECURE_COOKIES ? "__Secure-" : ""}next-auth.session-token`,
       options: {
         httpOnly: true,
         sameSite: "lax",
         path: "/",
         // When working on localhost, the cookie domain must be omitted entirely (https://stackoverflow.com/a/1188145)
-        domain: VERCEL_DEPLOYMENT ? ".dub.co" : undefined,
-        secure: VERCEL_DEPLOYMENT,
+        domain: process.env.AUTH_COOKIE_DOMAIN || undefined,
+        secure: SECURE_COOKIES,
       },
     },
   },

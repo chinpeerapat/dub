@@ -1,11 +1,11 @@
 import { DubApiError } from "@/lib/api/errors";
 import { withWorkspace } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import {
   dashboardSchema,
   updateDashboardBodySchema,
 } from "@/lib/zod/schemas/dashboard";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 
 const getDashboardOrThrow = async ({

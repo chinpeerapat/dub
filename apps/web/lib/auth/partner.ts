@@ -1,5 +1,6 @@
 import { DubApiError, handleApiError } from "@/lib/api/errors";
 import { withAxiom } from "@/lib/axiom/server";
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import { PartnerBetaFeatures, PartnerProps } from "@/lib/types";
 import { flattenVeriffMetadata } from "@/lib/veriff/veriff-metadata";
@@ -10,7 +11,6 @@ import {
   PARTNERS_DOMAIN,
 } from "@dub/utils";
 import { PartnerUser } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { getPartnerFeatureFlags } from "../edge-config";

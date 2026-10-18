@@ -1,7 +1,7 @@
+import { waitUntil } from "@/lib/backend/background";
 import { isBlacklistedDomain } from "@/lib/edge-config/is-blacklisted-domain";
 import { updateConfig } from "@/lib/edge-config/update";
 import { getDomainWithoutWWW } from "@dub/utils";
-import { waitUntil } from "@vercel/functions";
 import { experimental_evaluate as evaluate } from "ai";
 
 export async function maliciousLinkCheck(url: string) {

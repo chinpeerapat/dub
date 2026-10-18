@@ -9,6 +9,7 @@ import { linkCache } from "@/lib/api/links/cache";
 import { recordClickCache } from "@/lib/api/links/record-click-cache";
 import { parseRequestBody } from "@/lib/api/utils";
 import { withAxiom } from "@/lib/axiom/server";
+import { waitUntil } from "@/lib/backend/background";
 import { getIdentityHash } from "@/lib/middleware/utils/get-identity-hash";
 import { getWorkspaceViaEdge } from "@/lib/planetscale";
 import { getLinkWithPartner } from "@/lib/planetscale/get-link-with-partner";
@@ -18,7 +19,6 @@ import { formatRedisLink, redis, redisGlobalWithTimeout } from "@/lib/upstash";
 import { DiscountSchema } from "@/lib/zod/schemas/discount";
 import { PartnerSchema } from "@/lib/zod/schemas/partners";
 import { getDomainWithoutWWW, isValidUrl, nanoid } from "@dub/utils";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 import * as z from "zod/v4";
 

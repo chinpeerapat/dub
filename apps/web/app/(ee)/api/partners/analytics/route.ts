@@ -124,11 +124,11 @@ export const GET = withWorkspace(
       const earnings = await prisma.$queryRaw<
         { start: string; earnings: number }[]
       >`
-    SELECT 
-      DATE_FORMAT(CONVERT_TZ(createdAt, '+00:00', ${timezone || "+00:00"}),  ${dateFormat}) AS start, 
+    SELECT
+      to_char(createdAt AT TIME ZONE 'UTC' AT TIME ZONE ${timezone || "+00:00"}, ${dateFormat}) AS start,
       SUM(earnings) AS earnings
     FROM Commission
-    WHERE 
+    WHERE
       earnings > 0
       AND programId = ${programEnrollment.programId}
       AND partnerId = ${programEnrollment.partnerId}

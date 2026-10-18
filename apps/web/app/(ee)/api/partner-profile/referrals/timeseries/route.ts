@@ -41,7 +41,7 @@ export const GET = withPartnerProfile(async ({ partner, searchParams }) => {
     prisma.$queryRaw<{ start: string; partners: number }[]>(
       Prisma.sql`
         SELECT
-          DATE_FORMAT(CONVERT_TZ(createdAt, "UTC", ${timezone || "UTC"}), ${dateFormat}) AS start,
+          to_char(createdAt AT TIME ZONE 'UTC' AT TIME ZONE ${timezone || "UTC"}, ${dateFormat}) AS start,
           COUNT(*) AS partners
         FROM Partner
         WHERE
@@ -56,7 +56,7 @@ export const GET = withPartnerProfile(async ({ partner, searchParams }) => {
     prisma.$queryRaw<{ start: string; earnings: number }[]>(
       Prisma.sql`
         SELECT
-          DATE_FORMAT(CONVERT_TZ(createdAt, "UTC", ${timezone || "UTC"}), ${dateFormat}) AS start,
+          to_char(createdAt AT TIME ZONE 'UTC' AT TIME ZONE ${timezone || "UTC"}, ${dateFormat}) AS start,
           SUM(earnings) AS earnings
         FROM Commission
         WHERE

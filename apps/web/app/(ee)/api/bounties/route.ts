@@ -10,6 +10,7 @@ import { parseRequestBody } from "@/lib/api/utils";
 import { WorkflowAction } from "@/lib/api/workflows/types";
 import { validateWorkflowConditions } from "@/lib/api/workflows/validate-workflow-conditions";
 import { withWorkspace } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import {
   bountyEligibilityIncludes,
   buildBountyEligibilityWhere,
@@ -36,7 +37,6 @@ import {
   BountySubmissionStatus,
   Workflow,
 } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 
 // GET /api/bounties - get all bounties for a program

@@ -1,4 +1,5 @@
 import { inviteUser } from "@/lib/api/users";
+import { waitUntil } from "@/lib/backend/background";
 import { jackson } from "@/lib/jackson";
 import { syncStagingWorkspaceJob } from "@/lib/jobs/handlers/sync-staging-workspace-job";
 import { prisma } from "@/lib/prisma";
@@ -8,7 +9,6 @@ import type {
   DirectorySyncRequest,
 } from "@boxyhq/saml-jackson";
 import { getSearchParams } from "@dub/utils";
-import { waitUntil } from "@vercel/functions";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 

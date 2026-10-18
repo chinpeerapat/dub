@@ -4,6 +4,7 @@ import { getDefaultProgramIdOrThrow } from "@/lib/api/programs/get-default-progr
 import { parseRequestBody } from "@/lib/api/utils";
 import { extractUtmParams } from "@/lib/api/utm/extract-utm-params";
 import { withWorkspace } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import { qstash } from "@/lib/cron";
 import { defaultLinkDeletedJob } from "@/lib/jobs/handlers/default-link-deleted-job";
 import { prisma } from "@/lib/prisma";
@@ -13,7 +14,6 @@ import {
   PartnerGroupDefaultLinkSchema,
 } from "@/lib/zod/schemas/groups";
 import { APP_DOMAIN_WITH_NGROK, constructURLFromUTMParams } from "@dub/utils";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 
 // PATCH /api/groups/[groupIdOrSlug]/default-links/[defaultLinkId] - update a default link for a group

@@ -1,4 +1,4 @@
-import { redis } from "@/lib/upstash";
+import { redis } from "@/lib/upstash/redis";
 import * as z from "zod/v4";
 
 const CACHE_EXPIRATION = 60 * 60 * 24; // 24 hours
@@ -45,7 +45,7 @@ class TokenCache {
   }) {
     return await redis.set(
       this._createKey({ hashedKey }),
-      JSON.stringify(tokenCacheItemSchema.parse(token)),
+      tokenCacheItemSchema.parse(token),
       {
         ex: CACHE_EXPIRATION,
       },

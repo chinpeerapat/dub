@@ -1,14 +1,7 @@
-import { Index } from "@upstash/vector";
-
-export const vectorIndex = new Index({
-  url: process.env.UPSTASH_VECTOR_REST_URL ?? "",
-  token: process.env.UPSTASH_VECTOR_REST_TOKEN ?? "",
-});
-
-export const emojiVectorIndex = new Index<{
+import { PostgresSearchIndex } from "../backend/search";
+// Text search is local to PostgreSQL; no external embedding service is required.
+export const vectorIndex = new PostgresSearchIndex("docs");
+export const emojiVectorIndex = new PostgresSearchIndex<{
   emoji: string;
   label: string;
-}>({
-  url: process.env.UPSTASH_VECTOR_EMOJI_REST_URL ?? "",
-  token: process.env.UPSTASH_VECTOR_EMOJI_REST_TOKEN ?? "",
-});
+}>("emoji");

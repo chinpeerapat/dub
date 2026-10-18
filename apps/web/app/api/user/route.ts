@@ -2,6 +2,7 @@ import { DubApiError } from "@/lib/api/errors";
 import { withSession } from "@/lib/auth";
 import { hasPermission } from "@/lib/auth/partner-users/partner-user-permissions";
 import { requestEmailChange } from "@/lib/auth/request-email-change";
+import { waitUntil } from "@/lib/backend/background";
 import {
   assertEmailAvailableForIdentitySync,
   isImageReferencedByPartner,
@@ -20,7 +21,6 @@ import {
   nanoid,
   trim,
 } from "@dub/utils";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 import * as z from "zod/v4";
 

@@ -17,6 +17,7 @@ import { isRootDomainLinkKey } from "@/lib/api/links/utils/is-root-domain-link-k
 import { combineTagIds } from "@/lib/api/tags/combine-tag-ids";
 import { parseRequestBody } from "@/lib/api/utils";
 import { withWorkspace } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import { exceededLimitError } from "@/lib/exceeded-limit-error";
 import {
   verifyFolderAccess,
@@ -29,7 +30,6 @@ import {
   bulkCreateLinksBodySchema,
   bulkUpdateLinksBodySchema,
 } from "@/lib/zod/schemas/links";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 
 // POST /api/links/bulk – bulk create up to 100 links

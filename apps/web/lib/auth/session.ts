@@ -1,8 +1,8 @@
 import { DubApiError, handleAndReturnErrorResponse } from "@/lib/api/errors";
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import { ratelimit } from "@/lib/upstash";
 import { getSearchParams } from "@dub/utils";
-import { waitUntil } from "@vercel/functions";
 import { headers } from "next/headers";
 import { withAxiom } from "../axiom/server";
 import { hashToken } from "./hash-token";

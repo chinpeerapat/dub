@@ -1,8 +1,8 @@
 import { logger, toErrorFields } from "@/lib/axiom/server";
+import { PublishRequest } from "@/lib/backend/queue";
 import { qstash } from "@/lib/cron";
 import { APP_DOMAIN_WITH_NGROK, chunk, serializeError } from "@dub/utils";
 import { Job, Prisma } from "@prisma/client";
-import { PublishRequest } from "@upstash/qstash";
 import * as z from "zod/v4";
 import { LAST_ERROR_MAX_LENGTH, QSTASH_BATCH_CHUNK_SIZE } from "./constants";
 import type { PublishResult } from "./types";

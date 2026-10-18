@@ -1,3 +1,4 @@
+import { waitUntil } from "@/lib/backend/background";
 import { withCron } from "@/lib/cron/with-cron";
 import { conn } from "@/lib/planetscale";
 import { redis } from "@/lib/upstash/redis";
@@ -7,7 +8,6 @@ import {
   linkClickEventStream,
 } from "@/lib/upstash/redis-streams/link-click-events";
 import { log } from "@dub/utils";
-import { waitUntil } from "@vercel/functions";
 import { logAndRespond } from "../../utils";
 
 export const dynamic = "force-dynamic";
@@ -220,7 +220,7 @@ const processClickStatsStreamBatch = () =>
         async (update) => {
           try {
             await conn.execute(
-              "UPDATE Project p SET p.usage = p.usage + ?, p.totalClicks = p.totalClicks + ? WHERE id = ?",
+              "UPDATE Project p SET usage = p.usage + ?, totalClicks = p.totalClicks + ? WHERE id = ?",
               [update.clicks, update.clicks, update.workspaceId],
             );
             return { success: true };

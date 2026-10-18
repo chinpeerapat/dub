@@ -1,8 +1,5 @@
-import {
-  LOCALHOST_IP,
-  REDIRECTION_QUERY_PARAM,
-} from "@dub/utils/src/constants";
-import { ipAddress } from "@vercel/functions";
+import { ipAddress } from "@/lib/backend/request";
+import { REDIRECTION_QUERY_PARAM } from "@dub/utils/src/constants";
 import { NextRequest, userAgent } from "next/server";
 import { isAppsFlyerTrackingUrl } from "./is-appsflyer-tracking-url";
 import { isGooglePlayStoreUrl } from "./is-google-play-store-url";
@@ -71,7 +68,7 @@ export const getFinalUrl = (
   // for Singular tracking links
   if (isSingularTrackingUrl(url)) {
     const ua = userAgent(req);
-    const ip = process.env.VERCEL === "1" ? ipAddress(req) : LOCALHOST_IP;
+    const ip = ipAddress(req) || "";
     urlObj.searchParams.set("cl", clickId ?? "");
     urlObj.searchParams.set("ua", ua?.ua ?? "");
     urlObj.searchParams.set("ip", ip ?? "");

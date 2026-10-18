@@ -30,8 +30,10 @@ export function buildCustomerSearchWhere({
 
   const q = sanitizeFullTextSearch(search);
   return {
-    email: { search: q },
-    name: { search: q },
+    OR: [
+      { email: { contains: q, mode: "insensitive" as const } },
+      { name: { contains: q, mode: "insensitive" as const } },
+    ],
   };
 }
 

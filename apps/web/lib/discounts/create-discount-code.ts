@@ -1,9 +1,9 @@
 import { createId } from "@/lib/api/create-id";
 import { DubApiError } from "@/lib/api/errors";
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import { nanoid } from "@dub/utils";
 import { Discount, Link, Partner, Prisma, Project } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { sendWorkspaceWebhook } from "../webhook/publish";
 import { DiscountCodeWebhookSchema } from "../zod/schemas/discount";
 import { constructDiscountCode } from "./construct-discount-code";

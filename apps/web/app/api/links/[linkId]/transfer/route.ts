@@ -3,11 +3,11 @@ import { linkCache } from "@/lib/api/links/cache";
 import { getLinkOrThrow } from "@/lib/api/links/get-link-or-throw";
 import { normalizeWorkspaceId } from "@/lib/api/workspaces/workspace-id";
 import { withWorkspace } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import { verifyFolderAccess } from "@/lib/folder/permissions";
 import { prisma } from "@/lib/prisma";
 import { recordLink } from "@/lib/tinybird";
 import { isDubDomain } from "@dub/utils";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 import * as z from "zod/v4";
 

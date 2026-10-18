@@ -1,7 +1,7 @@
 import { getIP } from "@/lib/api/utils/get-ip";
+import { ipAddress as getIPAddress } from "@/lib/backend/request";
 import { tb } from "@/lib/tinybird";
 import { log } from "@dub/utils";
-import { ipAddress as getIPAddress } from "@vercel/functions";
 import { headers } from "next/headers";
 import * as z from "zod/v4";
 import { createId } from "../create-id";

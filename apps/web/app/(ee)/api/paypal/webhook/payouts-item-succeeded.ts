@@ -1,7 +1,7 @@
 import { trackCommissionStatusUpdate } from "@/lib/api/commissions/track-commission-update-activity-log";
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import { chunk, log } from "@dub/utils";
-import { waitUntil } from "@vercel/functions";
 import { payoutsItemSchema } from "./utils";
 
 export async function payoutsItemSucceeded(event: any) {

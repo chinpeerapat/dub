@@ -6,6 +6,7 @@ import { resolveFraudGroups } from "@/lib/api/fraud/resolve-fraud-groups";
 import { queuePartnerSearchSync } from "@/lib/api/partners/queue-partner-search-sync";
 import { getDefaultProgramIdOrThrow } from "@/lib/api/programs/get-default-program-id-or-throw";
 import { trackApplicationEvents } from "@/lib/application-events/update-application-event";
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import { bulkRejectProgramApplicationsSchema } from "@/lib/zod/schemas/program-application";
 import { sendBatchEmail } from "@dub/email";
@@ -14,7 +15,6 @@ import {
   ProgramApplicationStatus,
   ProgramEnrollmentStatus,
 } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { authActionClient } from "../safe-action";
 import { throwIfNoPermission } from "../throw-if-no-permission";
 

@@ -10,6 +10,7 @@ import { getRewardSpendLimitWindow } from "@/lib/api/rewards/reward-spend-limit-
 import { calculateSaleEarnings } from "@/lib/api/sales/calculate-sale-earnings";
 import { executeWorkflows } from "@/lib/api/workflows/execute-workflows";
 import { logger } from "@/lib/axiom/server";
+import { serve, WorkflowRetryAfterError } from "@/lib/backend/workflow";
 import { buildCommissionDescription } from "@/lib/commissions/build-commission-description";
 import { constructWebhookPartner } from "@/lib/partners/constuct-webhook-partner";
 import {
@@ -40,8 +41,6 @@ import {
   ProgramEnrollment,
   Reward,
 } from "@prisma/client";
-import { WorkflowRetryAfterError } from "@upstash/workflow";
-import { serve } from "@upstash/workflow/nextjs";
 import { differenceInMonths } from "date-fns";
 import * as z from "zod/v4";
 import { logAndReturn } from "../../cron/utils";

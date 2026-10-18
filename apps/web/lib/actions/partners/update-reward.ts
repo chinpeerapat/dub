@@ -8,13 +8,13 @@ import { getDefaultProgramIdOrThrow } from "@/lib/api/programs/get-default-progr
 import { revalidateProgramPublicPages } from "@/lib/api/programs/revalidate-program-public-pages";
 import { queueRewardProcessing } from "@/lib/api/rewards/queue-reward-processing";
 import { validateReward } from "@/lib/api/rewards/validate-reward";
+import { waitUntil } from "@/lib/backend/background";
 import { getFeatureFlags } from "@/lib/edge-config";
 import { getPlanCapabilities } from "@/lib/plan-capabilities";
 import { prisma } from "@/lib/prisma";
 import { updateRewardSchema } from "@/lib/zod/schemas/rewards";
 import { formatRewardDescription } from "@/ui/partners/format-reward-description";
 import { Prisma } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { authActionClient } from "../safe-action";
 import { throwIfNoPermission } from "../throw-if-no-permission";
 

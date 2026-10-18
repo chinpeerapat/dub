@@ -68,7 +68,7 @@ export async function getPayoutsTimeseries({
     // Optionally remove card processing (2.9%) from invoice fees.
     // amount and fee are stored in cents, so we round the computed deduction.
     `SELECT
-      DATE_FORMAT(CONVERT_TZ(createdAt, "UTC", ?), ?) as date,
+      to_char(createdAt AT TIME ZONE 'UTC' AT TIME ZONE ?, ?) as date,
       SUM(amount) as payouts,
       SUM(
         ${
@@ -92,7 +92,7 @@ export async function getPayoutsTimeseries({
       ) as total
     FROM Invoice
     WHERE ${whereClauses.join(" AND ")}
-    GROUP BY DATE_FORMAT(CONVERT_TZ(createdAt, "UTC", ?), ?)
+    GROUP BY to_char(createdAt AT TIME ZONE 'UTC' AT TIME ZONE ?, ?)
     ORDER BY date ASC`,
     [timezone, dateFormat, ...queryParams, timezone, dateFormat],
   );

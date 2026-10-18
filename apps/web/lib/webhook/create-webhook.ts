@@ -1,8 +1,8 @@
 import { createId } from "@/lib/api/create-id";
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import { WEBHOOK_ID_PREFIX } from "@/lib/webhook/constants";
 import { Project, WebhookReceiver } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import * as z from "zod/v4";
 import { getPlanCapabilities } from "../plan-capabilities";
 import { createWebhookSchema } from "../zod/schemas/webhooks";

@@ -1,4 +1,5 @@
 import { getWorkspaceUsers } from "@/lib/api/get-workspace-users";
+import { waitUntil } from "@/lib/backend/background";
 import { invalidateLinksForDiscountsJob } from "@/lib/jobs/handlers/invalidate-links-for-discounts-job";
 import { dispatchWorkflows } from "@/lib/jobs/publish-workflows";
 import { prisma } from "@/lib/prisma";
@@ -7,7 +8,6 @@ import { VARIANT_TO_FROM_MAP } from "@dub/email/resend/constants";
 import DiscountDeleted from "@dub/email/templates/discount-deleted";
 import { pluck } from "@dub/utils";
 import { DiscountProvider } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import type Stripe from "stripe";
 import { WebhookHandlerInput, WebhookHandlerResponse } from "./types";
 

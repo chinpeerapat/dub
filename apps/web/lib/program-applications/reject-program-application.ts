@@ -3,6 +3,7 @@ import { DubApiError } from "@/lib/api/errors";
 import { resolveFraudGroups } from "@/lib/api/fraud/resolve-fraud-groups";
 import { queuePartnerSearchSync } from "@/lib/api/partners/queue-partner-search-sync";
 import { trackApplicationEvents } from "@/lib/application-events/update-application-event";
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import { getProgramApplicationRejectionReasonLabel } from "@/lib/program-applications/program-application-rejection";
 import { rejectProgramApplicationSchema } from "@/lib/zod/schemas/program-application";
@@ -12,7 +13,6 @@ import {
   ProgramApplicationStatus,
   ProgramEnrollmentStatus,
 } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import * as z from "zod/v4";
 
 type RejectProgramApplicationInput = z.infer<

@@ -48,9 +48,9 @@ export function buildPartnerEmailSearchWhere({
     const q = sanitizeFullTextSearch(search);
     return {
       OR: [
-        { email: { search: q } },
-        { name: { search: q } },
-        { companyName: { search: q } },
+        { email: { contains: q, mode: "insensitive" as const } },
+        { name: { contains: q, mode: "insensitive" as const } },
+        { companyName: { contains: q, mode: "insensitive" as const } },
       ],
     };
   }

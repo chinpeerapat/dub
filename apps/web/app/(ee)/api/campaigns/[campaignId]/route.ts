@@ -11,6 +11,7 @@ import { getDefaultProgramIdOrThrow } from "@/lib/api/programs/get-default-progr
 import { parseRequestBody } from "@/lib/api/utils";
 import { validateWorkflowConditions } from "@/lib/api/workflows/validate-workflow-conditions";
 import { withWorkspace } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import { qstash } from "@/lib/cron";
 import { prisma } from "@/lib/prisma";
 import {
@@ -19,7 +20,6 @@ import {
 } from "@/lib/zod/schemas/campaigns";
 import { APP_DOMAIN_WITH_NGROK, arrayEqual, pluck } from "@dub/utils";
 import { PartnerGroup } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 
 // GET /api/campaigns/[campaignId] - get an email campaign

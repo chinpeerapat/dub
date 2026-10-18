@@ -1,6 +1,7 @@
 import { DubApiError } from "@/lib/api/errors";
 import { parseRequestBody } from "@/lib/api/utils";
 import { withWorkspace } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import { createWebhook } from "@/lib/webhook/create-webhook";
 import { getWebhooks } from "@/lib/webhook/get-webhooks";
@@ -11,7 +12,6 @@ import { sendEmail } from "@dub/email";
 import WebhookAdded from "@dub/email/templates/webhook-added";
 import { ZAPIER_INTEGRATION_ID } from "@dub/utils/src/constants";
 import { WebhookReceiver } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 
 // GET /api/webhooks - get all webhooks for the given workspace

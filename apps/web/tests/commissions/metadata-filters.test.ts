@@ -70,12 +70,12 @@ describe("parseCommissionMetadataQuery", () => {
       logic: "AND",
       filters: [{ key: "name", op: "equals", value: "Smith and Jones" }],
     });
-    expect(parseCommissionMetadataQuery("metadata['label']=\"A or B\"")).toEqual(
-      {
-        logic: "AND",
-        filters: [{ key: "label", op: "equals", value: "A or B" }],
-      },
-    );
+    expect(
+      parseCommissionMetadataQuery("metadata['label']=\"A or B\""),
+    ).toEqual({
+      logic: "AND",
+      filters: [{ key: "label", op: "equals", value: "A or B" }],
+    });
   });
 
   it("parses AND/OR when a quoted value contains and/or", () => {
@@ -257,7 +257,7 @@ describe("buildCommissionMetadataWhere", () => {
         filters: [{ key: "plan", op: "equals", value: "pro" }],
       }),
     ).toEqual({
-      metadata: { path: "$.plan", equals: "pro" },
+      metadata: { path: ["plan"], equals: "pro" },
     });
   });
 
@@ -268,7 +268,7 @@ describe("buildCommissionMetadataWhere", () => {
         filters: [{ key: "plan", op: "notEquals", value: "free" }],
       }),
     ).toEqual({
-      metadata: { path: "$.plan", not: "free" },
+      metadata: { path: ["plan"], not: "free" },
     });
   });
 
@@ -283,8 +283,8 @@ describe("buildCommissionMetadataWhere", () => {
       }),
     ).toEqual({
       AND: [
-        { metadata: { path: "$.plan", equals: "pro" } },
-        { metadata: { path: "$.tier", equals: "gold" } },
+        { metadata: { path: ["plan"], equals: "pro" } },
+        { metadata: { path: ["tier"], equals: "gold" } },
       ],
     });
   });
@@ -300,8 +300,8 @@ describe("buildCommissionMetadataWhere", () => {
       }),
     ).toEqual({
       OR: [
-        { metadata: { path: "$.plan", equals: "pro" } },
-        { metadata: { path: "$.plan", equals: "enterprise" } },
+        { metadata: { path: ["plan"], equals: "pro" } },
+        { metadata: { path: ["plan"], equals: "enterprise" } },
       ],
     });
   });

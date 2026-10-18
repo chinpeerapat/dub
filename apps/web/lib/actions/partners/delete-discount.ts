@@ -3,10 +3,10 @@
 import { recordAuditLog } from "@/lib/api/audit-logs/record-audit-log";
 import { getDiscountOrThrow } from "@/lib/api/partners/get-discount-or-throw";
 import { getDefaultProgramIdOrThrow } from "@/lib/api/programs/get-default-program-id-or-throw";
+import { waitUntil } from "@/lib/backend/background";
 import { invalidateLinksForDiscountsJob } from "@/lib/jobs/handlers/invalidate-links-for-discounts-job";
 import { dispatchWorkflows } from "@/lib/jobs/publish-workflows";
 import { prisma } from "@/lib/prisma";
-import { waitUntil } from "@vercel/functions";
 import * as z from "zod/v4";
 import { authActionClient } from "../safe-action";
 import { throwIfNoPermission } from "../throw-if-no-permission";

@@ -1,11 +1,11 @@
 import { onboardingStepCache } from "@/lib/api/workspaces/onboarding-step-cache";
 import { getSession } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import { syncStagingWorkspaceJob } from "@/lib/jobs/handlers/sync-staging-workspace-job";
 import { prisma } from "@/lib/prisma";
 import EmptyState from "@/ui/shared/empty-state";
 import { LoadingSpinner } from "@dub/ui";
 import { LinkBroken, Users6 } from "@dub/ui/icons";
-import { waitUntil } from "@vercel/functions";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 

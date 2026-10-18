@@ -9,6 +9,7 @@ import { getLinkOrThrow } from "@/lib/api/links/get-link-or-throw";
 import { isRootDomainLinkKey } from "@/lib/api/links/utils/is-root-domain-link-key";
 import { parseRequestBody } from "@/lib/api/utils";
 import { withWorkspace } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import { verifyFolderAccess } from "@/lib/folder/permissions";
 import { prisma } from "@/lib/prisma";
 import { NewLinkProps } from "@/lib/types";
@@ -18,7 +19,6 @@ import {
   updateLinkBodySchemaExtended,
 } from "@/lib/zod/schemas/links";
 import { deepEqual, UTMTags } from "@dub/utils";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 
 // GET /api/links/[linkId] – get a link

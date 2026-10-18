@@ -5,27 +5,26 @@ import type {
   JacksonOption,
 } from "@boxyhq/saml-jackson";
 import samlJackson from "@boxyhq/saml-jackson";
-import { APP_DOMAIN_WITH_NGROK } from "@dub/utils";
+import { API_DOMAIN, APP_DOMAIN_WITH_NGROK } from "@dub/utils";
 
-export const samlAudience = "https://saml.dub.co";
+export const samlAudience = `${APP_DOMAIN_WITH_NGROK}/saml`;
 
 const opts: JacksonOption = {
   externalUrl:
-    process.env.NODE_ENV === "production"
-      ? "https://api.dub.co"
-      : APP_DOMAIN_WITH_NGROK,
+    process.env.NODE_ENV === "production" ? API_DOMAIN : APP_DOMAIN_WITH_NGROK,
   samlPath:
     process.env.NODE_ENV === "production"
       ? "/auth/saml/callback"
       : "/api/auth/saml/callback",
   samlAudience,
   db: {
-    engine: "planetscale",
-    type: "mysql",
+    engine: "sql",
+    type: "postgres",
     url: process.env.DATABASE_URL as string,
-    ssl: {
-      rejectUnauthorized: false,
-    },
+    ssl:
+      process.env.DATABASE_SSL === "true"
+        ? { rejectUnauthorized: true }
+        : undefined,
   },
   idpEnabled: true, // to allow folks to SSO directly from their IDP
   scimPath:

@@ -3,6 +3,7 @@ import { transformCustomer } from "@/lib/api/customers/transform-customer";
 import { DubApiError } from "@/lib/api/errors";
 import { parseRequestBody } from "@/lib/api/utils";
 import { withWorkspace } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import { getNormalizedEmail } from "@/lib/email/normalize-email";
 import { prisma } from "@/lib/prisma";
 import { isStored, storage } from "@/lib/storage";
@@ -13,7 +14,6 @@ import {
   updateCustomerBodySchema,
 } from "@/lib/zod/schemas/customers";
 import { nanoid, R2_URL } from "@dub/utils";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 
 // GET /api/customers/:id – Get a customer by ID

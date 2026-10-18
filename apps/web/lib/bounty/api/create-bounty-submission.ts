@@ -3,6 +3,7 @@ import { DubApiError } from "@/lib/api/errors";
 import { getWorkspaceUsers } from "@/lib/api/get-workspace-users";
 import { getProgramEnrollmentOrThrow } from "@/lib/api/programs/get-program-enrollment-or-throw";
 import { getSocialContent } from "@/lib/api/scrape-creators/get-social-content";
+import { waitUntil } from "@/lib/backend/background";
 import {
   bountyEligibilityIncludes,
   canPartnerSubmitBounty,
@@ -28,7 +29,6 @@ import {
   Prisma,
   WorkspaceRole,
 } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { formatDistanceToNow, isBefore } from "date-fns";
 import * as z from "zod/v4";
 import { SOCIAL_URL_HOST_TO_PLATFORM } from "../social-content";

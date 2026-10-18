@@ -6,6 +6,7 @@ import { getPayoutEligibilityFilter } from "@/lib/api/payouts/payout-eligibility
 import { payoutIdSelectionWhere } from "@/lib/api/payouts/payout-id-selection-where";
 import { getDefaultProgramIdOrThrow } from "@/lib/api/programs/get-default-program-id-or-throw";
 import { getProgramOrThrow } from "@/lib/api/programs/get-program-or-throw";
+import { waitUntil } from "@/lib/backend/background";
 import {
   CUTOFF_PERIOD_MAX_PAYOUTS,
   DIRECT_DEBIT_PAYMENT_METHOD_TYPES,
@@ -28,7 +29,6 @@ import { EXTERNAL_PAYOUT_CONFIRMED_WEBHOOK_TRIGGER } from "@/lib/webhook/constan
 import { getWebhooks } from "@/lib/webhook/get-webhooks";
 import { APP_DOMAIN_WITH_NGROK, currencyFormatter } from "@dub/utils";
 import { PayoutMode, ProgramPayoutMode } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import * as z from "zod/v4";
 import { authActionClient } from "../safe-action";
 import { throwIfNoPermission } from "../throw-if-no-permission";

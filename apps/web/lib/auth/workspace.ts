@@ -1,10 +1,10 @@
 import { DubApiError, handleApiError } from "@/lib/api/errors";
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import { BetaFeatures, PlanProps, WorkspaceWithUsers } from "@/lib/types";
 import { ratelimit } from "@/lib/upstash";
 import { API_DOMAIN, getSearchParams } from "@dub/utils";
 import { WorkspaceRole } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { captureRequestLog } from "../api-logs/capture-request-log";

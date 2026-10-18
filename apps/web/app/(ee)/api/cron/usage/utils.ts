@@ -1,4 +1,5 @@
 import { getAnalytics } from "@/lib/analytics/get-analytics";
+import { waitUntil } from "@/lib/backend/background";
 import { qstash } from "@/lib/cron";
 import {
   getSlackWebhooks,
@@ -17,7 +18,6 @@ import {
   getAdjustedBillingCycleStart,
   log,
 } from "@dub/utils";
-import { waitUntil } from "@vercel/functions";
 import { getMonth, getYear } from "date-fns";
 
 const limit = 100;
@@ -91,7 +91,7 @@ export const updateUsage = async () => {
         }
 
         if (resetUsage) {
-          /* 
+          /*
             We only reset events usage if it's not over usageLimit by:
             - 4x for free plan (4K events)
             - 2x for all other plans

@@ -4,11 +4,11 @@ import { includeProgramEnrollment } from "@/lib/api/links/include-program-enroll
 import { includeTags } from "@/lib/api/links/include-tags";
 import { queuePartnerSearchSync } from "@/lib/api/partners/queue-partner-search-sync";
 import { getDefaultProgramIdOrThrow } from "@/lib/api/programs/get-default-program-id-or-throw";
+import { waitUntil } from "@/lib/backend/background";
 import { triggerDraftBountySubmissionCreation } from "@/lib/bounty/api/trigger-draft-bounty-submissions";
 import { prisma } from "@/lib/prisma";
 import { recordLink } from "@/lib/tinybird";
 import { updatePartnerTagsSchema } from "@/lib/zod/schemas/partner-tags";
-import { waitUntil } from "@vercel/functions";
 import { authActionClient } from "../../safe-action";
 import { throwIfNoPermission } from "../../throw-if-no-permission";
 

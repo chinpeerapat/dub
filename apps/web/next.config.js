@@ -1,3 +1,4 @@
+const path = require("path");
 const { withPlausibleProxy } = require("next-plausible");
 
 // Suppress specific external package warnings
@@ -23,13 +24,12 @@ module.exports = withPlausibleProxy({
   scriptPath: "/_proxy/plausible/script.js",
   apiPath: "/_proxy/plausible/event",
 })({
+  distDir: process.env.NEXT_DIST_DIR || ".next",
+  output: "standalone",
+  outputFileTracingRoot: path.join(__dirname, "../.."),
   reactStrictMode: false,
-  transpilePackages: [
-    "prettier",
-    "shiki",
-    "@dub/email",
-    "@boxyhq/saml-jackson",
-  ],
+  transpilePackages: ["prettier", "shiki", "@dub/email"],
+  serverExternalPackages: ["@boxyhq/saml-jackson"],
   outputFileTracingIncludes: {
     "/api/auth/saml/token": [
       "./node_modules/jose/**/*",
@@ -37,6 +37,9 @@ module.exports = withPlausibleProxy({
     ],
   },
   experimental: {
+    cpus: 2,
+    webpackBuildWorker: true,
+    webpackMemoryOptimizations: true,
     optimizePackageImports: [
       "@dub/email",
       "@dub/ui",
@@ -68,6 +71,18 @@ module.exports = withPlausibleProxy({
   },
   images: {
     remotePatterns: [
+      ...(process.env.STORAGE_BASE_URL
+        ? [
+            {
+              protocol: new URL(process.env.STORAGE_BASE_URL).protocol.replace(
+                ":",
+                "",
+              ),
+              hostname: new URL(process.env.STORAGE_BASE_URL).hostname,
+              port: new URL(process.env.STORAGE_BASE_URL).port,
+            },
+          ]
+        : []),
       {
         hostname: "assets.dub.co", // for Dub's static assets
       },
@@ -134,43 +149,7 @@ module.exports = withPlausibleProxy({
     ];
   },
   async redirects() {
-    return [
-      {
-        source: "/api/:path*",
-        missing: [
-          {
-            type: "host",
-            value: ".*(\\.dub\\.co|localhost)",
-          },
-        ],
-        destination: "/",
-        permanent: false,
-      },
-      {
-        source: "/",
-        has: [
-          {
-            type: "host",
-            value: "app.dub.sh",
-          },
-        ],
-        destination: "https://app.dub.co",
-        permanent: true,
-        statusCode: 301,
-      },
-      {
-        source: "/:path*",
-        has: [
-          {
-            type: "host",
-            value: "app.dub.sh",
-          },
-        ],
-        destination: "https://app.dub.co/:path*",
-        permanent: true,
-        statusCode: 301,
-      },
-    ];
+    return [];
   },
   async rewrites() {
     return [
@@ -181,7 +160,7 @@ module.exports = withPlausibleProxy({
       },
       {
         source: "/_proxy/dub/track/:path*",
-        destination: "https://api.dub.co/track/:path*",
+        destination: `${process.env.NEXT_PUBLIC_API_URL || "http://api.localhost:8888"}/track/:path*`,
       },
     ];
   },

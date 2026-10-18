@@ -1,5 +1,6 @@
 import { DubApiError } from "@/lib/api/errors";
 import { createLink } from "@/lib/api/links";
+import { waitUntil } from "@/lib/backend/background";
 import { registerDomain } from "@/lib/dynadot/register-domain";
 import { prisma } from "@/lib/prisma";
 import { isProductionEnvironment } from "@/lib/sandbox/environment";
@@ -8,7 +9,6 @@ import DomainClaimed from "@dub/email/templates/domain-claimed";
 import { DEFAULT_LINK_PROPS, isWorkspaceBillingTrialActive } from "@dub/utils";
 import { Project } from "@prisma/client";
 import { get } from "@vercel/edge-config";
-import { waitUntil } from "@vercel/functions";
 import { addDomainToVercel } from "./add-domain-vercel";
 import { configureVercelNameservers } from "./configure-vercel-nameservers";
 import { markDomainAsDeleted } from "./mark-domain-deleted";

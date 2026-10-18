@@ -5,6 +5,7 @@ import { getDefaultProgramIdOrThrow } from "@/lib/api/programs/get-default-progr
 import { getProgramEnrollmentOrThrow } from "@/lib/api/programs/get-program-enrollment-or-throw";
 import { parseRequestBody } from "@/lib/api/utils";
 import { withWorkspace } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import { createDiscountCode } from "@/lib/discounts/create-discount-code";
 import { isDiscountDeleted } from "@/lib/discounts/is-discount-deleted";
 import { prisma } from "@/lib/prisma";
@@ -16,7 +17,6 @@ import {
 } from "@/lib/zod/schemas/discount";
 import { APP_DOMAIN } from "@dub/utils";
 import { DiscountProvider } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 
 // GET /api/discount-codes - list discount codes

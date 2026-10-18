@@ -5,6 +5,7 @@ import { includeTags } from "@/lib/api/links/include-tags";
 import { queuePartnerSearchSync } from "@/lib/api/partners/queue-partner-search-sync";
 import { syncTotalCommissions } from "@/lib/api/partners/sync-total-commissions";
 import { logger } from "@/lib/axiom/server";
+import { serve } from "@/lib/backend/workflow";
 import { PRISMA_UPDATEMANY_LIMIT } from "@/lib/cron";
 import { conn } from "@/lib/planetscale";
 import { prisma } from "@/lib/prisma";
@@ -18,7 +19,6 @@ import { sendBatchEmail } from "@dub/email";
 import PartnerAccountMerged from "@dub/email/templates/partner-account-merged";
 import { pluck, prettyPrint, R2_URL } from "@dub/utils";
 import { FraudEventStatus, FraudRuleType, Prisma } from "@prisma/client";
-import { serve } from "@upstash/workflow/nextjs";
 import * as z from "zod/v4";
 import { logAndReturn } from "../../cron/utils";
 

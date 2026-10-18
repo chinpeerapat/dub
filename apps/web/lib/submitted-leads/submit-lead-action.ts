@@ -3,6 +3,7 @@
 import { trackActivityLog } from "@/lib/api/activity-log/track-activity-log";
 import { createId } from "@/lib/api/create-id";
 import { DubApiError } from "@/lib/api/errors";
+import { waitUntil } from "@/lib/backend/background";
 import { prisma } from "@/lib/prisma";
 import { SUBMITTED_LEAD_FORM_REQUIRED_FIELD_KEYS } from "@/lib/submitted-leads/constants";
 import { getGroupSubmittedLeadForm } from "@/lib/submitted-leads/get-group-submitted-lead-form";
@@ -17,7 +18,6 @@ import {
 import { submitLeadSchema } from "@/lib/zod/schemas/submitted-leads";
 import { COUNTRIES } from "@dub/utils";
 import { Prisma } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import * as z from "zod/v4";
 import { authPartnerActionClient } from "../actions/safe-action";
 import { ACTIVE_ENROLLMENT_STATUSES } from "../zod/schemas/partners";

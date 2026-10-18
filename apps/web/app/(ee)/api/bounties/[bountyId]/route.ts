@@ -8,6 +8,7 @@ import { parseRequestBody } from "@/lib/api/utils";
 import { WorkflowCondition } from "@/lib/api/workflows/types";
 import { validateWorkflowConditions } from "@/lib/api/workflows/validate-workflow-conditions";
 import { withWorkspace } from "@/lib/auth";
+import { waitUntil } from "@/lib/backend/background";
 import { bountyEligibilityIncludes } from "@/lib/bounty/api/bounty-availability";
 import { generatePerformanceBountyName } from "@/lib/bounty/api/generate-performance-bounty-name";
 import { getBountyOrThrow } from "@/lib/bounty/api/get-bounty-or-throw";
@@ -32,7 +33,6 @@ import {
   pluck,
 } from "@dub/utils";
 import { BountyStartMode, PartnerGroup, Prisma } from "@prisma/client";
-import { waitUntil } from "@vercel/functions";
 import { NextResponse } from "next/server";
 
 // GET /api/bounties/[bountyId] - get a bounty
