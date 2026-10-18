@@ -1,5 +1,4 @@
 import { getProgram } from "@/lib/fetchers/get-program";
-import { getProgramSlugs } from "@/lib/fetchers/get-program-slugs";
 import { isProductionEnvironment } from "@/lib/sandbox/environment";
 import { formatRewardDescription } from "@/ui/partners/format-reward-description";
 import { AuroraGradient } from "@/ui/shared/aurora-gradient";
@@ -43,12 +42,11 @@ export async function generateMetadata(props: {
   });
 }
 
-export async function generateStaticParams() {
-  const programs = await getProgramSlugs();
-
-  return programs.map((program) => ({
-    programSlug: program.slug,
-  }));
+// Program pages are rendered after deployment, when the database is available.
+export async function generateStaticParams(): Promise<
+  { programSlug: string }[]
+> {
+  return [];
 }
 
 export default async function PartnerAuthLayout(props: {

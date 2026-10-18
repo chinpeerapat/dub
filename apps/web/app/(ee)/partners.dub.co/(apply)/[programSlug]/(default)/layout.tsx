@@ -1,5 +1,4 @@
 import { getProgram } from "@/lib/fetchers/get-program";
-import { getProgramSlugs } from "@/lib/fetchers/get-program-slugs";
 import { isProductionEnvironment } from "@/lib/sandbox/environment";
 import { DEFAULT_PARTNER_GROUP } from "@/lib/zod/schemas/groups";
 import { formatRewardDescription } from "@/ui/partners/format-reward-description";
@@ -39,13 +38,11 @@ export async function generateMetadata(props: {
   });
 }
 
-export async function generateStaticParams() {
-  const programs = await getProgramSlugs();
-
-  return programs.map((program) => ({
-    programSlug: program.slug,
-    groupSlug: DEFAULT_PARTNER_GROUP.slug,
-  }));
+// Program pages are rendered after deployment, when the database is available.
+export async function generateStaticParams(): Promise<
+  { programSlug: string }[]
+> {
+  return [];
 }
 
 export default async function ApplyLayout(

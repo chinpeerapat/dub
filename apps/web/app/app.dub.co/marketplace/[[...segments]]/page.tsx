@@ -6,10 +6,8 @@ import { APP_DOMAIN, constructMetadata } from "@dub/utils";
 import { Category } from "@prisma/client";
 import { Metadata } from "next";
 
-export {
-  generateStaticParams,
-  revalidate,
-} from "@/ui/program-marketplace/utils/default-exports";
+export { generateStaticParams } from "@/ui/program-marketplace/utils/default-exports";
+export const revalidate = 3600;
 
 export async function generateMetadata(props: {
   params: Promise<{ segments?: string[] }>;
