@@ -64,6 +64,15 @@ jobs:
       - name: Verify fresh stack, backend integration tests, and application flows
         run: node --env-file=.env.selfhost deploy/ci/smoke.mjs
 
+      - name: Verify browser login and workspace
+        run: |
+          docker run --rm --network host -e CI=true dub-selfhost:tools sh -c '
+            set -eu
+            cd /app/apps/web
+            pnpm exec playwright install --with-deps chromium
+            pnpm exec playwright test --config=/app/deploy/ci/browser.config.cjs
+          '
+
       - name: Container diagnostics
         if: failure()
         run: |

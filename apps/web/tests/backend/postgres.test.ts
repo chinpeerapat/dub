@@ -242,6 +242,7 @@ describe("PostgreSQL infrastructure", () => {
     let calls = 0;
     let verified = false;
     let messageId: string | undefined;
+    let host: string | undefined;
     const server = createServer(async (req, res) => {
       let body = "";
       for await (const chunk of req) body += chunk;
@@ -253,6 +254,7 @@ describe("PostgreSQL infrastructure", () => {
       );
       calls++;
       messageId = req.headers["x-dub-message-id"] as string;
+      host = req.headers.host;
       res.statusCode = calls === 1 || req.url === "/api/fail" ? 503 : 200;
       res.end(calls === 1 ? "retry" : "ok");
     });
@@ -272,6 +274,7 @@ describe("PostgreSQL infrastructure", () => {
       await deliver((await claimDelivery())!);
       expect(verified).toBe(true);
       expect(messageId).toBeTruthy();
+      expect(host).toBe("app.example.com");
       expect(
         (await postgres.query("SELECT status FROM dub_runtime.delivery"))
           .rows[0].status,

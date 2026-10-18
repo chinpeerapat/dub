@@ -16,7 +16,7 @@ async function main() {
     });
     await prisma.project.create({
       data: {
-        id: "selfhost-smoke",
+        id: "ws_selfhostsmoke",
         slug: "selfhost-smoke",
         name: "Self-host smoke",
         billingCycleStart: 1,

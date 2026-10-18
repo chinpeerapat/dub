@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
+import { request as httpRequest } from "node:http";
 
 const compose = [
   "compose",
@@ -71,7 +72,7 @@ assert.equal(health.status, 200);
 const loginPage = await request("/login");
 assert.equal(loginPage.status, 200, "Login page must render");
 assert.match(await loginPage.text(), /<html/);
-const anonymous = await request("/api/links?workspaceId=selfhost-smoke");
+const anonymous = await request("/api/links?workspaceId=ws_selfhostsmoke");
 assert.equal(
   anonymous.status,
   401,
@@ -102,7 +103,7 @@ const session = await request("/api/auth/session").then((response) =>
 );
 assert.equal(session.user?.email, "selfhost-smoke@example.test");
 
-const created = await request("/api/links?workspaceId=selfhost-smoke", {
+const created = await request("/api/links?workspaceId=ws_selfhostsmoke", {
   method: "POST",
   headers: { "content-type": "application/json" },
   body: JSON.stringify({
@@ -122,18 +123,31 @@ assert.equal(
   "go.localhost",
   "Use the configured short domain when omitted",
 );
-const list = await request("/api/links?workspaceId=selfhost-smoke");
+const list = await request("/api/links?workspaceId=ws_selfhostsmoke");
 assert.equal(list.status, 200);
 assert.ok((await list.json()).some((item) => item.id === link.id));
-const redirect = await fetch(`${origin}/docker-smoke`, {
-  headers: { host: "go.localhost" },
-  redirect: "manual",
-  signal: AbortSignal.timeout(30000),
+const redirect = await new Promise((resolve, reject) => {
+  const req = httpRequest(
+    `${origin}/docker-smoke`,
+    {
+      headers: { host: "go.localhost" },
+      signal: AbortSignal.timeout(30000),
+    },
+    (response) => {
+      response.resume();
+      resolve({
+        status: response.statusCode,
+        location: response.headers.location,
+      });
+    },
+  );
+  req.on("error", reject);
+  req.end();
 });
 assert.ok([301, 302, 307, 308].includes(redirect.status));
-assert.equal(redirect.headers.get("location"), "https://example.com/ci");
+assert.equal(redirect.location, "https://example.com/ci");
 const analytics = await request(
-  "/api/analytics?workspaceId=selfhost-smoke&interval=24h&event=clicks&groupBy=count",
+  "/api/analytics?workspaceId=ws_selfhostsmoke&interval=24h&event=clicks&groupBy=count",
 );
 assert.equal(
   analytics.status,

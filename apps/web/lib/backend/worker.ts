@@ -1,4 +1,7 @@
 import { randomUUID } from "node:crypto";
+import { request as httpRequest } from "node:http";
+import { request as httpsRequest } from "node:https";
+import { Readable } from "node:stream";
 import schedules from "../../vercel.json";
 import { postgres, transaction } from "./postgres";
 import { databaseQueue, jobSignature, type PublishRequest } from "./queue";
@@ -41,6 +44,54 @@ function internalTarget(url: URL) {
     .filter(Boolean)
     .map((value) => new URL(value!).origin);
   return origins.includes(url.origin);
+}
+// Node's fetch ignores a supplied Host header. Internal requests need the public
+// hostname for the app's host-based routing while connecting to the web service.
+function internalRequest(
+  url: URL,
+  method: string,
+  headers: Headers,
+  body: string,
+) {
+  return new Promise<Response>((resolve, reject) => {
+    const request = (url.protocol === "https:" ? httpsRequest : httpRequest)(
+      url,
+      {
+        method,
+        headers: Object.fromEntries(headers),
+        signal: AbortSignal.timeout(
+          Number(process.env.JOB_TIMEOUT_MS || 600000),
+        ),
+      },
+      (response) => {
+        const responseHeaders = new Headers();
+        for (const [key, value] of Object.entries(response.headers)) {
+          for (const item of Array.isArray(value)
+            ? value
+            : value
+              ? [value]
+              : [])
+            responseHeaders.append(key, item);
+        }
+        const status = response.statusCode ?? 502;
+        const noBody = method === "HEAD" || [204, 205, 304].includes(status);
+        if (noBody) response.resume();
+        resolve(
+          new Response(
+            noBody
+              ? null
+              : (Readable.toWeb(response) as ReadableStream<Uint8Array>),
+            {
+              status,
+              headers: responseHeaders,
+            },
+          ),
+        );
+      },
+    );
+    request.on("error", reject);
+    request.end(body || undefined);
+  });
 }
 export async function deliver(job: Delivery) {
   const request = job.request;
@@ -85,13 +136,17 @@ export async function deliver(job: Delivery) {
       .catch(console.error);
   }, 30000);
   try {
-    response = await fetch(destination, {
-      method,
-      headers,
-      body: body || undefined,
-      redirect: "manual",
-      signal: AbortSignal.timeout(Number(process.env.JOB_TIMEOUT_MS || 600000)),
-    });
+    response = internal
+      ? await internalRequest(destination, method, headers, body)
+      : await fetch(destination, {
+          method,
+          headers,
+          body: body || undefined,
+          redirect: "manual",
+          signal: AbortSignal.timeout(
+            Number(process.env.JOB_TIMEOUT_MS || 600000),
+          ),
+        });
     result = (await response.text()).slice(0, 64000);
     if (!response.ok)
       throw new Error(`HTTP ${response.status}: ${result.slice(0, 1000)}`);
