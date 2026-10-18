@@ -1,19 +1,19 @@
 # Validation notes
 
-Validated locally on 2026-10-18:
+Validated on 2026-10-18, locally and on GitHub Actions using Ubuntu x64:
 
-- The application-wide TypeScript check passed on the final refactor.
-- The PostgreSQL integration suite passed 20 tests: locks, expiry, OTP consumption, shared rate limits, hashes/sets/streams, cached API/embed tokens, event deduplication, workspace isolation, metadata filtering, empty time buckets, delivery leasing, retries and success/failure callbacks, signed webhook bytes and credential isolation, workflow checkpoints, flow-control scheduling, upload signatures, Prisma/raw SQL, enum binding, transaction rollback, JSON filtering, password-hash omission, and long destination URLs.
-- The complete Prisma schema initialized an empty PostgreSQL database. The follow-up index migration also applied successfully.
-- Real self-hosted Supabase PostgreSQL, PostgREST, Storage, and imgproxy services reached healthy status using the included Compose definitions.
-- The initializer created the restricted application role, private schemas, default short domain, and public/private buckets.
-- Supabase Storage upload, object metadata reads, and deletion passed against the actual Storage API.
-- The worker and initializer bundle builds passed.
-- Both root and compatibility Compose configurations parsed successfully.
-- Changed source files were formatted, and `git diff --check` passed.
+- The actual production Docker image built successfully, including the full Next.js production build and standalone output.
+- An empty Supabase stack initialized successfully. PostgreSQL, PostgREST, Storage, imgproxy, the Next.js server, and the worker reached healthy status.
+- The initializer created the restricted application role, private schemas, default short domain, and public/private buckets, then applied both checked-in Prisma migrations.
+- All 20 PostgreSQL integration tests passed inside the Docker tools image against the Supabase PostgreSQL service. They cover cache concurrency/expiry, shared rate limits, structured tokens, analytics isolation/filtering, durable delivery/retries/callbacks, signed webhook bytes, internal Host headers, workflow checkpoints, upload signatures, Prisma/raw SQL, enum binding, transaction rollback, JSON filtering, password-hash omission, and long URLs.
+- HTTP smoke checks passed for rendered login HTML, protected workspace data, password authentication and session cookies, link creation without an explicit domain, link listing, short-link redirects, and analytics.
+- Chromium signed in through the two-step email/password form and displayed the persisted short link in the workspace without uncaught page errors.
+- Real Supabase Storage upload, public download, and deletion passed.
+- The application-wide TypeScript check and the worker/initializer bundle builds passed.
+- Both root and compatibility Compose configurations parsed successfully. Changed source files were formatted, and `git diff --check` passed.
 
-The full Next.js production build did not complete on the 8 GB validation Mac. The last attempt was stopped after 20 minutes of heavy swapping, without a reported compilation error. Next.js build workers and memory optimizations have since been enabled; a successful build with that configuration remains required.
+Evidence: [successful GitHub Actions run](https://github.com/chinpeerapat/dub/actions/runs/39138057447), application commit `f1746480aa`.
 
-The complete Docker application image, full application-stack startup, and browser sign-in/link-management smoke test are **not production-verified**. Run the documented Docker build on a larger runner and verify those flows before deploying for users.
+The 8 GB validation Mac could not complete the full production build under memory pressure; the GitHub runner completed it. Runtime capacity and production traffic have not been benchmarked. CI uses local HTTP origins and disposable credentials; public DNS/HTTPS and SMTP delivery must be configured for the deployment environment.
 
-Database containers and the application build were run separately to reduce memory contention. Test services are stopped. This session's generated local configuration and database were archived outside the repository so the next setup begins with a fresh database.
+CI stops its stack and removes test volumes when finished. The deployment initializer creates no test users or sample partner data. This session's local test configuration and database were archived outside the repository, and its local test services are stopped.
