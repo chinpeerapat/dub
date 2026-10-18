@@ -13,6 +13,8 @@ concurrency:
 
 jobs:
   e2e:
+    # The fork uses selfhost-docker.yml and PostgreSQL fixtures.
+    if: github.repository == 'dubinc/dub'
     permissions:
       contents: read
     timeout-minutes: 30

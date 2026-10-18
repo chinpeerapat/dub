@@ -38,7 +38,7 @@ Only Caddy is intended for public ingress. PostgreSQL and the direct app/debug p
 
 ## Behavior and limits
 
-Public origins and the short domain are build-time configuration. Rebuild the image after changing them; run the same values in the container. Set `AUTH_COOKIE_DOMAIN` only when the app and partner site should share sessions under a domain you control.
+Public origins, the short domain, and the public `STORAGE_BASE_URL` are build-time configuration. Rebuild the image after changing them; run the same values in the container. Set `AUTH_COOKIE_DOMAIN` only when the app and partner site should share sessions under a domain you control.
 
 Cache values, sliding rate limits, event streams, and workflow checkpoints now live in PostgreSQL. The cache interface retains its old internal `lib/upstash` import paths to minimize changes to business logic; it does not call Upstash. Search uses PostgreSQL full-text matching rather than hosted semantic embeddings.
 

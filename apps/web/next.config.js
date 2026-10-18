@@ -26,6 +26,12 @@ module.exports = withPlausibleProxy({
 })({
   distDir: process.env.NEXT_DIST_DIR || ".next",
   output: "standalone",
+  // Image URL validation also runs in the browser; this base URL is public.
+  env: {
+    STORAGE_BASE_URL:
+      process.env.STORAGE_BASE_URL ||
+      "http://localhost:8000/storage/v1/object/public/public",
+  },
   outputFileTracingRoot: path.join(__dirname, "../.."),
   reactStrictMode: false,
   transpilePackages: ["prettier", "shiki", "@dub/email"],

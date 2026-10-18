@@ -3,6 +3,7 @@ name: Self-hosted Docker
 on:
   push:
     branches: ["selfhost/**"]
+  pull_request:
   workflow_dispatch:
 
 permissions:
