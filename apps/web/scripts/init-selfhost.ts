@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { spawnSync } from "node:child_process";
 import { readFile } from "node:fs/promises";
 import { Pool } from "pg";
+import { supabaseServiceRoleKey } from "../lib/backend/supabase-key";
 
 async function main() {
   const admin = new Pool({ connectionString: process.env.ADMIN_DATABASE_URL });
@@ -94,7 +95,7 @@ async function main() {
       {
         method: "POST",
         headers: {
-          authorization: `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`,
+          authorization: `Bearer ${supabaseServiceRoleKey()}`,
           "content-type": "application/json",
         },
         signal: AbortSignal.timeout(30000),

@@ -1,5 +1,6 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { assertSafeStorageKey } from "../storage/assert-safe-storage-key";
+import { supabaseServiceRoleKey } from "./supabase-key";
 
 export type UploadToken = {
   key: string;
@@ -43,9 +44,11 @@ export function verifyUpload(token: string): UploadToken {
 }
 export async function storageRequest(path: string, init: RequestInit = {}) {
   const base = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const key = supabaseServiceRoleKey();
   if (!base || !key)
-    throw new Error("SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are required");
+    throw new Error(
+      "SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY (or SUPABASE_ROOT_SECRET) are required",
+    );
   const headers = new Headers(init.headers);
   headers.set("authorization", `Bearer ${key}`);
   headers.set("apikey", key);
