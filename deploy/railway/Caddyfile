@@ -1,0 +1,17 @@
+# Forwards one Railway-generated hostname to the web service while keeping the
+# original Host header, so Dub's hostname routing (api/partners/admin/short links)
+# works without a custom domain.
+{
+	auto_https off
+	admin off
+	servers {
+		# Only Railway's edge can reach this service publicly.
+		trusted_proxies static 0.0.0.0/0 ::/0
+	}
+}
+
+:{$PORT:8080} {
+	reverse_proxy {$UPSTREAM:web.railway.internal:3000} {
+		header_up -X-Geo-*
+	}
+}
