@@ -4,14 +4,14 @@
 {
 	auto_https off
 	admin off
-	servers {
-		# Only Railway's edge can reach this service publicly.
-		trusted_proxies static 0.0.0.0/0 ::/0
-	}
 }
 
 :{$PORT:8080} {
 	reverse_proxy {$UPSTREAM:web.railway.internal:3000} {
+		# Railway's edge always sets X-Real-IP to the connecting client; never
+		# forward client-supplied identity or geo headers.
+		header_up X-Real-IP {http.request.header.X-Real-IP}
+		header_up X-Forwarded-For {http.request.header.X-Real-IP}
 		header_up -X-Geo-*
 	}
 }
